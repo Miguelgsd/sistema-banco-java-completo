@@ -1,0 +1,12 @@
+# Arquivos gerados pela Compilação e Distribuição
+/build/
+/dist/
+
+# Configurações Locais e Privadas do NetBeans
+/nbproject/private/
+build.xml
+
+# Arquivos de log e cache
+.nb-gradle/
+.nb-maven/
+*.log
