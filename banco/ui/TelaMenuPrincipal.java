@@ -4,11 +4,24 @@ public class TelaMenuPrincipal extends javax.swing.JFrame {
     
     private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(TelaMenuPrincipal.class.getName());
 
-    /**
-     * Creates new form TelaMenuPrincipal
-     */
-    public TelaMenuPrincipal() {
+    private String nomeUsuario;
+    private String perfilUsuario;
+    
+    public TelaMenuPrincipal(String nome, String perfil) {
+        this.nomeUsuario = nome;
+        this.perfilUsuario = perfil;
+        
         initComponents();
+        
+        configurarTela();
+    }
+    
+    private void configurarTela(){
+        lbl_title.setText("Bem-vindo, " + nomeUsuario);
+        
+        if(perfilUsuario.equalsIgnoreCase("OPERADOR")){
+            btn_gerenciar_usuarios.setVisible(false);
+        }
     }
 
     /**
@@ -21,122 +34,144 @@ public class TelaMenuPrincipal extends javax.swing.JFrame {
     private void initComponents() {
 
         jMenuItem1 = new javax.swing.JMenuItem();
-        jLabel1 = new javax.swing.JLabel();
-        jMenuBar1 = new javax.swing.JMenuBar();
-        Gere = new javax.swing.JMenu();
-        jMenu2 = new javax.swing.JMenu();
-        jMenu3 = new javax.swing.JMenu();
-        jMenu4 = new javax.swing.JMenu();
-        jMenu5 = new javax.swing.JMenu();
-        jMenu1 = new javax.swing.JMenu();
-        jMenu6 = new javax.swing.JMenu();
-        jMenu7 = new javax.swing.JMenu();
-        jMenu8 = new javax.swing.JMenu();
+        lbl_title = new javax.swing.JLabel();
+        btn_logout = new javax.swing.JButton();
+        btn_cad_cliente = new javax.swing.JButton();
+        btn_deposito = new javax.swing.JButton();
+        btn_cad_corrente = new javax.swing.JButton();
+        btn_saque = new javax.swing.JButton();
+        btn_cad_poupanca = new javax.swing.JButton();
+        btn_transferencia = new javax.swing.JButton();
+        btn_relatorio = new javax.swing.JButton();
+        btn_extrato = new javax.swing.JButton();
+        btn_gerenciar_usuarios = new javax.swing.JButton();
 
         jMenuItem1.setText("jMenuItem1");
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
-        jLabel1.setFont(new java.awt.Font("Cantarell", 0, 36)); // NOI18N
-        jLabel1.setText("Bem vindo, user");
+        lbl_title.setFont(new java.awt.Font("Cantarell", 0, 24)); // NOI18N
+        lbl_title.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        lbl_title.setText("teste");
 
-        Gere.setText("Gerenciar Usuários");
-        Gere.setFont(new java.awt.Font("Cantarell", 0, 13)); // NOI18N
-        jMenuBar1.add(Gere);
+        btn_logout.setText("Sair");
+        btn_logout.addActionListener(this::btn_logoutActionPerformed);
 
-        jMenu2.setText("Cadastrar Cliente");
-        jMenu2.setFont(new java.awt.Font("Cantarell", 0, 13)); // NOI18N
-        jMenuBar1.add(jMenu2);
+        btn_cad_cliente.setText("Cadastrar Cliente");
 
-        jMenu3.setText("Cadastrar Conta Corrente");
-        jMenu3.setActionCommand("Cadastrar Conta Corrente");
-        jMenu3.setFont(new java.awt.Font("Cantarell", 0, 12)); // NOI18N
-        jMenuBar1.add(jMenu3);
+        btn_deposito.setText("Depósito");
+        btn_deposito.addActionListener(this::btn_depositoActionPerformed);
 
-        jMenu4.setText("Cadastrar Conta Poupança");
-        jMenu4.setFont(new java.awt.Font("Cantarell", 0, 12)); // NOI18N
-        jMenuBar1.add(jMenu4);
+        btn_cad_corrente.setText("Cadastrar Conta Corrente");
+        btn_cad_corrente.addActionListener(this::btn_cad_correnteActionPerformed);
 
-        jMenu5.setText("Depósito");
-        jMenu5.setFont(new java.awt.Font("Cantarell", 0, 12)); // NOI18N
-        jMenuBar1.add(jMenu5);
+        btn_saque.setText("Saque");
 
-        jMenu1.setText("Saque");
-        jMenu1.setFont(new java.awt.Font("Cantarell", 0, 12)); // NOI18N
-        jMenuBar1.add(jMenu1);
+        btn_cad_poupanca.setText("Cadastrar Conta Poupança");
 
-        jMenu6.setText("Transferência");
-        jMenu6.setFont(new java.awt.Font("Cantarell", 0, 12)); // NOI18N
-        jMenuBar1.add(jMenu6);
+        btn_transferencia.setText("Transferência");
 
-        jMenu7.setText("Extrato");
-        jMenu7.setFocusable(false);
-        jMenu7.setFont(new java.awt.Font("Cantarell", 0, 12)); // NOI18N
-        jMenuBar1.add(jMenu7);
+        btn_relatorio.setText("Relatório Geral");
 
-        jMenu8.setText("Relatório");
-        jMenu8.setFont(new java.awt.Font("Cantarell", 0, 12)); // NOI18N
-        jMenuBar1.add(jMenu8);
+        btn_extrato.setText("Extrato");
 
-        setJMenuBar(jMenuBar1);
+        btn_gerenciar_usuarios.setText("Gerenciar Usuários");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addGap(305, 305, 305)
-                .addComponent(jLabel1)
-                .addContainerGap(327, Short.MAX_VALUE))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
+                        .addContainerGap()
+                        .addComponent(btn_gerenciar_usuarios)
+                        .addGap(134, 134, 134)
+                        .addComponent(lbl_title, javax.swing.GroupLayout.PREFERRED_SIZE, 287, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(btn_logout))
+                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
+                        .addGap(15, 15, 15)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(layout.createSequentialGroup()
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(btn_cad_cliente, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addComponent(btn_cad_corrente, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                                .addGap(433, 433, 433)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                    .addComponent(btn_deposito, javax.swing.GroupLayout.DEFAULT_SIZE, 211, Short.MAX_VALUE)
+                                    .addComponent(btn_saque, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                            .addGroup(layout.createSequentialGroup()
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                                    .addComponent(btn_relatorio, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addComponent(btn_cad_poupanca, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                                .addGap(433, 433, 433)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(btn_transferencia, javax.swing.GroupLayout.DEFAULT_SIZE, 211, Short.MAX_VALUE)
+                                    .addComponent(btn_extrato, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))))
+                .addGap(18, 18, 18))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(36, 36, 36)
-                .addComponent(jLabel1)
-                .addContainerGap(343, Short.MAX_VALUE))
+                .addContainerGap()
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(btn_logout)
+                    .addComponent(btn_gerenciar_usuarios)
+                    .addComponent(lbl_title))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 125, Short.MAX_VALUE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(btn_cad_cliente)
+                    .addComponent(btn_deposito))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(btn_cad_corrente)
+                    .addComponent(btn_saque))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(btn_cad_poupanca)
+                    .addComponent(btn_transferencia))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(btn_relatorio)
+                    .addComponent(btn_extrato))
+                .addGap(166, 166, 166))
         );
 
         pack();
+        setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
+
+    private void btn_logoutActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_logoutActionPerformed
+        // TODO add your handling code here:
+        new TelaLogin().setVisible(true);
+        this.dispose();
+    }//GEN-LAST:event_btn_logoutActionPerformed
+
+    private void btn_cad_correnteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_cad_correnteActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btn_cad_correnteActionPerformed
+
+    private void btn_depositoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_depositoActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btn_depositoActionPerformed
 
     /**
      * @param args the command line arguments
      */
-    public static void main(String args[]) {
-        /* Set the Nimbus look and feel */
-        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-         */
-        try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                    break;
-                }
-            }
-        } catch (ReflectiveOperationException | javax.swing.UnsupportedLookAndFeelException ex) {
-            logger.log(java.util.logging.Level.SEVERE, null, ex);
-        }
-        //</editor-fold>
-
-        /* Create and display the form */
-        java.awt.EventQueue.invokeLater(() -> new TelaMenuPrincipal().setVisible(true));
-    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JMenu Gere;
-    private javax.swing.JLabel jLabel1;
-    private javax.swing.JMenu jMenu1;
-    private javax.swing.JMenu jMenu2;
-    private javax.swing.JMenu jMenu3;
-    private javax.swing.JMenu jMenu4;
-    private javax.swing.JMenu jMenu5;
-    private javax.swing.JMenu jMenu6;
-    private javax.swing.JMenu jMenu7;
-    private javax.swing.JMenu jMenu8;
-    private javax.swing.JMenuBar jMenuBar1;
+    private javax.swing.JButton btn_cad_cliente;
+    private javax.swing.JButton btn_cad_corrente;
+    private javax.swing.JButton btn_cad_poupanca;
+    private javax.swing.JButton btn_deposito;
+    private javax.swing.JButton btn_extrato;
+    private javax.swing.JButton btn_gerenciar_usuarios;
+    private javax.swing.JButton btn_logout;
+    private javax.swing.JButton btn_relatorio;
+    private javax.swing.JButton btn_saque;
+    private javax.swing.JButton btn_transferencia;
     private javax.swing.JMenuItem jMenuItem1;
+    private javax.swing.JLabel lbl_title;
     // End of variables declaration//GEN-END:variables
 }

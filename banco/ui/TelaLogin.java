@@ -1,7 +1,6 @@
 package banco.ui;
 
 import java.awt.Color;
-import javax.swing.JOptionPane;
 import javax.swing.Timer;
 
 public class TelaLogin extends javax.swing.JFrame {
@@ -123,11 +122,12 @@ public class TelaLogin extends javax.swing.JFrame {
         }
         
         String usuarioCorreto = "miguel";
+        String perfil = "ADMIN";
         String senhaCorreta = "1234";
         int restantes = 3;
         
         if(user.equals(usuarioCorreto) && password.equals(senhaCorreta)){
-            new TelaMenuPrincipal().setVisible(true);
+            new TelaMenuPrincipal(usuarioCorreto, perfil).setVisible(true);
             this.dispose();
             
         } else {
