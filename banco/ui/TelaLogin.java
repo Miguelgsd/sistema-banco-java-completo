@@ -1,13 +1,7 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
- */
 package banco.ui;
 
-/**
- *
- * @author dutrax
- */
+import javax.swing.JOptionPane;
+
 public class TelaLogin extends javax.swing.JFrame {
     
     private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(TelaLogin.class.getName());
@@ -32,8 +26,8 @@ public class TelaLogin extends javax.swing.JFrame {
         lbl_password = new javax.swing.JLabel();
         edt_user = new javax.swing.JTextField();
         edt_password = new javax.swing.JPasswordField();
-        jLabel1 = new javax.swing.JLabel();
-        jButton1 = new javax.swing.JButton();
+        lbl_title = new javax.swing.JLabel();
+        btn_login = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -43,12 +37,13 @@ public class TelaLogin extends javax.swing.JFrame {
 
         edt_password.addActionListener(this::edt_passwordActionPerformed);
 
-        jLabel1.setFont(new java.awt.Font("Carlito", 0, 24)); // NOI18N
-        jLabel1.setText("Login");
-        jLabel1.setMaximumSize(new java.awt.Dimension(43, 19));
-        jLabel1.setMinimumSize(new java.awt.Dimension(40, 20));
+        lbl_title.setFont(new java.awt.Font("Carlito", 0, 24)); // NOI18N
+        lbl_title.setText("Login");
+        lbl_title.setMaximumSize(new java.awt.Dimension(43, 19));
+        lbl_title.setMinimumSize(new java.awt.Dimension(40, 20));
 
-        jButton1.setText("Entrar");
+        btn_login.setText("Entrar");
+        btn_login.addActionListener(this::btn_loginActionPerformed);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -68,18 +63,18 @@ public class TelaLogin extends javax.swing.JFrame {
                         .addGap(111, 111, 111))
                     .addGroup(layout.createSequentialGroup()
                         .addGap(46, 46, 46)
-                        .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(lbl_title, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
             .addGroup(layout.createSequentialGroup()
                 .addGap(158, 158, 158)
-                .addComponent(jButton1)
+                .addComponent(btn_login)
                 .addGap(0, 0, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addGap(36, 36, 36)
-                .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(lbl_title, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(56, 56, 56)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(lbl_user)
@@ -89,7 +84,7 @@ public class TelaLogin extends javax.swing.JFrame {
                     .addComponent(lbl_password)
                     .addComponent(edt_password, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 32, Short.MAX_VALUE)
-                .addComponent(jButton1)
+                .addComponent(btn_login)
                 .addGap(30, 30, 30))
         );
 
@@ -100,6 +95,26 @@ public class TelaLogin extends javax.swing.JFrame {
     private void edt_passwordActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_edt_passwordActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_edt_passwordActionPerformed
+
+    private void btn_loginActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_loginActionPerformed
+        // TODO add your handling code here:
+        String user = edt_user.getText().trim();
+        String password = new String(edt_password.getPassword());
+        
+        if(user.isEmpty() || password.isEmpty()){
+            JOptionPane.showMessageDialog(null, "Por favor, preencha todos os campo", "Aviso", JOptionPane.WARNING_MESSAGE);
+            return;
+        }
+        
+        String usuarioCorreto = "miguel";
+        String senhaCorreta = "1234";
+        
+        if(user.equals(usuarioCorreto) && password.equals(senhaCorreta)){
+            JOptionPane.showMessageDialog(null, "Login efetuado", "Correto", JOptionPane.INFORMATION_MESSAGE);
+        } else {
+            JOptionPane.showMessageDialog(null, "Usuário ou senha incorretos!", "Erro", JOptionPane.ERROR_MESSAGE);
+        }
+    }//GEN-LAST:event_btn_loginActionPerformed
 
     /**
      * @param args the command line arguments
@@ -127,11 +142,11 @@ public class TelaLogin extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btn_login;
     private javax.swing.JPasswordField edt_password;
     private javax.swing.JTextField edt_user;
-    private javax.swing.JButton jButton1;
-    private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel lbl_password;
+    private javax.swing.JLabel lbl_title;
     private javax.swing.JLabel lbl_user;
     // End of variables declaration//GEN-END:variables
 }

@@ -1,13 +1,5 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
- */
 package banco.ui;
 
-/**
- *
- * @author dutrax
- */
 public class TelaMenuPrincipal extends javax.swing.JFrame {
     
     private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(TelaMenuPrincipal.class.getName());
@@ -28,17 +20,81 @@ public class TelaMenuPrincipal extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        jMenuItem1 = new javax.swing.JMenuItem();
+        jLabel1 = new javax.swing.JLabel();
+        jMenuBar1 = new javax.swing.JMenuBar();
+        Gere = new javax.swing.JMenu();
+        jMenu2 = new javax.swing.JMenu();
+        jMenu3 = new javax.swing.JMenu();
+        jMenu4 = new javax.swing.JMenu();
+        jMenu5 = new javax.swing.JMenu();
+        jMenu1 = new javax.swing.JMenu();
+        jMenu6 = new javax.swing.JMenu();
+        jMenu7 = new javax.swing.JMenu();
+        jMenu8 = new javax.swing.JMenu();
+
+        jMenuItem1.setText("jMenuItem1");
+
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+
+        jLabel1.setFont(new java.awt.Font("Cantarell", 0, 36)); // NOI18N
+        jLabel1.setText("Bem vindo, user");
+
+        Gere.setText("Gerenciar Usuários");
+        Gere.setFont(new java.awt.Font("Cantarell", 0, 13)); // NOI18N
+        jMenuBar1.add(Gere);
+
+        jMenu2.setText("Cadastrar Cliente");
+        jMenu2.setFont(new java.awt.Font("Cantarell", 0, 13)); // NOI18N
+        jMenuBar1.add(jMenu2);
+
+        jMenu3.setText("Cadastrar Conta Corrente");
+        jMenu3.setActionCommand("Cadastrar Conta Corrente");
+        jMenu3.setFont(new java.awt.Font("Cantarell", 0, 12)); // NOI18N
+        jMenuBar1.add(jMenu3);
+
+        jMenu4.setText("Cadastrar Conta Poupança");
+        jMenu4.setFont(new java.awt.Font("Cantarell", 0, 12)); // NOI18N
+        jMenuBar1.add(jMenu4);
+
+        jMenu5.setText("Depósito");
+        jMenu5.setFont(new java.awt.Font("Cantarell", 0, 12)); // NOI18N
+        jMenuBar1.add(jMenu5);
+
+        jMenu1.setText("Saque");
+        jMenu1.setFont(new java.awt.Font("Cantarell", 0, 12)); // NOI18N
+        jMenuBar1.add(jMenu1);
+
+        jMenu6.setText("Transferência");
+        jMenu6.setFont(new java.awt.Font("Cantarell", 0, 12)); // NOI18N
+        jMenuBar1.add(jMenu6);
+
+        jMenu7.setText("Extrato");
+        jMenu7.setFocusable(false);
+        jMenu7.setFont(new java.awt.Font("Cantarell", 0, 12)); // NOI18N
+        jMenuBar1.add(jMenu7);
+
+        jMenu8.setText("Relatório");
+        jMenu8.setFont(new java.awt.Font("Cantarell", 0, 12)); // NOI18N
+        jMenuBar1.add(jMenu8);
+
+        setJMenuBar(jMenuBar1);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 400, Short.MAX_VALUE)
+            .addGroup(layout.createSequentialGroup()
+                .addGap(305, 305, 305)
+                .addComponent(jLabel1)
+                .addContainerGap(327, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 300, Short.MAX_VALUE)
+            .addGroup(layout.createSequentialGroup()
+                .addGap(36, 36, 36)
+                .addComponent(jLabel1)
+                .addContainerGap(343, Short.MAX_VALUE))
         );
 
         pack();
@@ -70,5 +126,17 @@ public class TelaMenuPrincipal extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JMenu Gere;
+    private javax.swing.JLabel jLabel1;
+    private javax.swing.JMenu jMenu1;
+    private javax.swing.JMenu jMenu2;
+    private javax.swing.JMenu jMenu3;
+    private javax.swing.JMenu jMenu4;
+    private javax.swing.JMenu jMenu5;
+    private javax.swing.JMenu jMenu6;
+    private javax.swing.JMenu jMenu7;
+    private javax.swing.JMenu jMenu8;
+    private javax.swing.JMenuBar jMenuBar1;
+    private javax.swing.JMenuItem jMenuItem1;
     // End of variables declaration//GEN-END:variables
 }
