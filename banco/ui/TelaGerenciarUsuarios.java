@@ -1,23 +1,32 @@
 package banco.ui;
 
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
- */
+import java.awt.Color;
+import javax.swing.table.DefaultTableModel;
 
-/**
- *
- * @author dutrax
- */
 public class TelaGerenciarUsuarios extends javax.swing.JFrame {
     
     private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(TelaGerenciarUsuarios.class.getName());
 
-    /**
-     * Creates new form TelaGerenciarUsuarios
-     */
+    private DefaultTableModel tabelaModelo;
+    private boolean confirmacao = false;
+    
     public TelaGerenciarUsuarios() {
         initComponents();
+        
+        this.tabelaModelo = (DefaultTableModel) tbl_users.getModel();
+        
+        carregarDadosTeste();
+    }
+    
+    private void carregarDadosTeste() {
+        // Limpa a tabela antes de carregar (Boa prática para evitar duplicados)
+        tabelaModelo.setNumRows(0);
+        
+        // Simulando dados que viriam do UsuarioDAO.listarTodos() futuramente
+        // O edital exige colunas: ID, Login, Nome, Perfil
+        tabelaModelo.addRow(new Object[]{1L, "miguel", "Miguel Garcia", "ADMIN"});
+        tabelaModelo.addRow(new Object[]{2L, "joaosilva", "João Silva", "OPERADOR"});
+        tabelaModelo.addRow(new Object[]{3L, "mariasantos", "Maria Santos", "OPERADOR"});
     }
 
     /**
@@ -29,38 +38,96 @@ public class TelaGerenciarUsuarios extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jLabel1 = new javax.swing.JLabel();
+        lbl_title = new javax.swing.JLabel();
         btn_back = new javax.swing.JButton();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        tbl_users = new javax.swing.JTable();
+        btn_new = new javax.swing.JButton();
+        btn_edit = new javax.swing.JButton();
+        btn_delete = new javax.swing.JButton();
+        lbl_warnings = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
-        jLabel1.setFont(new java.awt.Font("Cantarell", 0, 18)); // NOI18N
-        jLabel1.setText("Gerenciar Usuários");
+        lbl_title.setFont(new java.awt.Font("Cantarell", 0, 24)); // NOI18N
+        lbl_title.setText("Gerenciar Usuários");
 
         btn_back.setText("Voltar");
         btn_back.addActionListener(this::btn_backActionPerformed);
+
+        tbl_users.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null}
+            },
+            new String [] {
+                "ID", "Login", "Nome", "Perfil"
+            }
+        ) {
+            Class[] types = new Class [] {
+                java.lang.Integer.class, java.lang.String.class, java.lang.String.class, java.lang.String.class
+            };
+
+            public Class getColumnClass(int columnIndex) {
+                return types [columnIndex];
+            }
+        });
+        jScrollPane1.setViewportView(tbl_users);
+
+        btn_new.setText("Novo");
+        btn_new.addActionListener(this::btn_newActionPerformed);
+
+        btn_edit.setText("Editar");
+
+        btn_delete.setText("Excluir");
+        btn_delete.addActionListener(this::btn_deleteActionPerformed);
+
+        lbl_warnings.setFont(new java.awt.Font("Cantarell", 0, 17)); // NOI18N
+        lbl_warnings.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addGap(291, 291, 291)
-                .addComponent(jLabel1)
-                .addContainerGap(329, Short.MAX_VALUE))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(btn_back)
-                .addContainerGap())
+                .addContainerGap()
+                .addComponent(lbl_warnings, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+            .addGroup(layout.createSequentialGroup()
+                .addContainerGap(17, Short.MAX_VALUE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 735, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(btn_new, javax.swing.GroupLayout.PREFERRED_SIZE, 183, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(btn_edit, javax.swing.GroupLayout.PREFERRED_SIZE, 183, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(btn_delete, javax.swing.GroupLayout.PREFERRED_SIZE, 183, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(btn_back, javax.swing.GroupLayout.PREFERRED_SIZE, 167, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap(20, Short.MAX_VALUE))
+            .addGroup(layout.createSequentialGroup()
+                .addGap(286, 286, 286)
+                .addComponent(lbl_title)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(btn_back)
-                .addGap(1, 1, 1)
-                .addComponent(jLabel1)
-                .addContainerGap(445, Short.MAX_VALUE))
+                .addGap(29, 29, 29)
+                .addComponent(lbl_title)
+                .addGap(53, 53, 53)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 252, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(btn_new)
+                    .addComponent(btn_delete)
+                    .addComponent(btn_back)
+                    .addComponent(btn_edit))
+                .addGap(33, 33, 33)
+                .addComponent(lbl_warnings, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(63, Short.MAX_VALUE))
         );
 
         pack();
@@ -72,9 +139,63 @@ public class TelaGerenciarUsuarios extends javax.swing.JFrame {
         this.dispose();
     }//GEN-LAST:event_btn_backActionPerformed
 
+    private void btn_newActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_newActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btn_newActionPerformed
+
+    private void btn_deleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_deleteActionPerformed
+        // TODO add your handling code here:
+        int linhaSelecionada = tbl_users.getSelectedRow();
+        
+        if(linhaSelecionada == -1){
+            lbl_warnings.setForeground(Color.red);
+            lbl_warnings.setText("Por favor, selecione uma linha válida.");
+            btn_delete.setBackground(null);
+            btn_delete.setForeground(Color.black);
+            btn_delete.setText("Excluir");
+            return;
+        }
+        
+        long idUsuario = (long) tabelaModelo.getValueAt(linhaSelecionada, 0);
+        String loginUsuario = (String) tabelaModelo.getValueAt(linhaSelecionada, 1);
+        
+        if(loginUsuario.equalsIgnoreCase("miguel") || idUsuario == 1L){
+            lbl_warnings.setForeground(Color.red);
+            lbl_warnings.setText("Erro: não é possível excluir o usuário administrador do sistema.");
+            return;
+        } 
+        
+        if(!confirmacao){
+            confirmacao = true;
+            
+            btn_delete.setText("Confirmar");
+            btn_delete.setBackground(Color.red);
+            btn_delete.setForeground(Color.white);
+            
+            lbl_warnings.setText("Confirme a exclusão do usuário.");
+            lbl_warnings.setForeground(Color.red);
+        } else {
+            tabelaModelo.removeRow(linhaSelecionada);
+            
+            lbl_warnings.setText("Usuário '" + loginUsuario + "' removido com sucesso!");
+            lbl_warnings.setForeground(new java.awt.Color(0, 150, 0));
+            
+            btn_delete.setBackground(null);
+            btn_delete.setForeground(Color.black);
+            btn_delete.setText("Excluir");
+            confirmacao = false;
+        }
+    }//GEN-LAST:event_btn_deleteActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btn_back;
-    private javax.swing.JLabel jLabel1;
+    private javax.swing.JButton btn_delete;
+    private javax.swing.JButton btn_edit;
+    private javax.swing.JButton btn_new;
+    private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JLabel lbl_title;
+    private javax.swing.JLabel lbl_warnings;
+    private javax.swing.JTable tbl_users;
     // End of variables declaration//GEN-END:variables
 }
