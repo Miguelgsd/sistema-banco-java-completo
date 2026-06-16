@@ -11,8 +11,8 @@ public class TelaLogin extends javax.swing.JFrame {
     /**
      * Creates new form TelaLogin
      */
-    int tentativas = 0;
-    Timer temporizador;
+    private int tentativas = 0;
+    private Timer temporizador;
     
     public TelaLogin() {
         initComponents();
@@ -98,9 +98,9 @@ public class TelaLogin extends javax.swing.JFrame {
                     .addComponent(lbl_password))
                 .addGap(39, 39, 39)
                 .addComponent(btn_login)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGap(35, 35, 35)
                 .addComponent(lbl_error, javax.swing.GroupLayout.PREFERRED_SIZE, 21, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(66, Short.MAX_VALUE))
+                .addContainerGap(43, Short.MAX_VALUE))
         );
 
         pack();
@@ -117,7 +117,8 @@ public class TelaLogin extends javax.swing.JFrame {
         String password = new String(edt_password.getPassword());
         
         if(user.isEmpty() || password.isEmpty()){
-            JOptionPane.showMessageDialog(null, "Por favor, preencha todos os campos", "Aviso", JOptionPane.WARNING_MESSAGE);
+            lbl_error.setForeground(Color.red);
+            lbl_error.setText("Por favor, preencha todos os campos!");
             return;
         }
         
@@ -126,7 +127,9 @@ public class TelaLogin extends javax.swing.JFrame {
         int restantes = 3;
         
         if(user.equals(usuarioCorreto) && password.equals(senhaCorreta)){
-            System.out.print("OK");
+            new TelaMenuPrincipal().setVisible(true);
+            this.dispose();
+            
         } else {
             lbl_error.setForeground(Color.red);
             tentativas++;
