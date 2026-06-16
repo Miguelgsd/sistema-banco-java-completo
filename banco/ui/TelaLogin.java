@@ -1,5 +1,6 @@
 package banco.ui;
 
+import java.awt.Color;
 import javax.swing.JOptionPane;
 
 public class TelaLogin extends javax.swing.JFrame {
@@ -9,6 +10,8 @@ public class TelaLogin extends javax.swing.JFrame {
     /**
      * Creates new form TelaLogin
      */
+    int tentativas = 0;
+    
     public TelaLogin() {
         initComponents();
     }
@@ -28,6 +31,7 @@ public class TelaLogin extends javax.swing.JFrame {
         edt_password = new javax.swing.JPasswordField();
         lbl_title = new javax.swing.JLabel();
         btn_login = new javax.swing.JButton();
+        lbl_error = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -50,42 +54,45 @@ public class TelaLogin extends javax.swing.JFrame {
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(51, 51, 51)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(lbl_user)
-                    .addComponent(lbl_password))
-                .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
+                        .addGap(246, 246, 246)
+                        .addComponent(btn_login))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(41, 41, 41)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(edt_user)
-                            .addComponent(edt_password, javax.swing.GroupLayout.DEFAULT_SIZE, 161, Short.MAX_VALUE))
-                        .addGap(111, 111, 111))
+                            .addComponent(lbl_user)
+                            .addComponent(lbl_password))
+                        .addGap(22, 22, 22)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addGroup(layout.createSequentialGroup()
+                                .addGap(46, 46, 46)
+                                .addComponent(lbl_title, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(edt_user, javax.swing.GroupLayout.DEFAULT_SIZE, 372, Short.MAX_VALUE)
+                            .addComponent(edt_password)))
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(46, 46, 46)
-                        .addComponent(lbl_title, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
-            .addGroup(layout.createSequentialGroup()
-                .addGap(158, 158, 158)
-                .addComponent(btn_login)
-                .addGap(0, 0, Short.MAX_VALUE))
+                        .addGap(61, 61, 61)
+                        .addComponent(lbl_error, javax.swing.GroupLayout.PREFERRED_SIZE, 466, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap(82, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addGap(36, 36, 36)
                 .addComponent(lbl_title, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(56, 56, 56)
+                .addGap(37, 37, 37)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(lbl_user)
-                    .addComponent(edt_user, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(41, 41, 41)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(lbl_password)
-                    .addComponent(edt_password, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 32, Short.MAX_VALUE)
+                    .addComponent(edt_user, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(lbl_user))
+                .addGap(43, 43, 43)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(edt_password, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(lbl_password))
+                .addGap(18, 18, 18)
                 .addComponent(btn_login)
-                .addGap(30, 30, 30))
+                .addGap(27, 27, 27)
+                .addComponent(lbl_error, javax.swing.GroupLayout.PREFERRED_SIZE, 21, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(56, Short.MAX_VALUE))
         );
 
         pack();
@@ -102,17 +109,26 @@ public class TelaLogin extends javax.swing.JFrame {
         String password = new String(edt_password.getPassword());
         
         if(user.isEmpty() || password.isEmpty()){
-            JOptionPane.showMessageDialog(null, "Por favor, preencha todos os campo", "Aviso", JOptionPane.WARNING_MESSAGE);
+            JOptionPane.showMessageDialog(null, "Por favor, preencha todos os campos", "Aviso", JOptionPane.WARNING_MESSAGE);
             return;
         }
         
         String usuarioCorreto = "miguel";
         String senhaCorreta = "1234";
+        int restantes = 3;
         
         if(user.equals(usuarioCorreto) && password.equals(senhaCorreta)){
-            JOptionPane.showMessageDialog(null, "Login efetuado", "Correto", JOptionPane.INFORMATION_MESSAGE);
+            System.out.print("OK");
         } else {
-            JOptionPane.showMessageDialog(null, "Usuário ou senha incorretos!", "Erro", JOptionPane.ERROR_MESSAGE);
+            lbl_error.setForeground(Color.red);
+            tentativas++;
+        }
+        
+        if(tentativas == 3){
+        
+        } else {
+            restantes -= tentativas;
+            lbl_error.setText("Usuário e/ou senha incorreto(s). Tentativas restantes: " + restantes);
         }
     }//GEN-LAST:event_btn_loginActionPerformed
 
@@ -145,6 +161,7 @@ public class TelaLogin extends javax.swing.JFrame {
     private javax.swing.JButton btn_login;
     private javax.swing.JPasswordField edt_password;
     private javax.swing.JTextField edt_user;
+    private javax.swing.JLabel lbl_error;
     private javax.swing.JLabel lbl_password;
     private javax.swing.JLabel lbl_title;
     private javax.swing.JLabel lbl_user;
