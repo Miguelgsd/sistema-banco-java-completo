@@ -7,6 +7,7 @@ import javax.swing.JOptionPane;
 import banco.interfaces.Operavel;
 
 public abstract class ContaBancaria implements Operavel {
+    private long id;
     private String numeroConta;
     private Cliente titular;
     private double saldo;
