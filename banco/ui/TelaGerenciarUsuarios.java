@@ -2,6 +2,9 @@ package banco.ui;
 
 import java.awt.Color;
 import javax.swing.table.DefaultTableModel;
+import banco.dao.UsuarioDAO;
+import banco.model.Usuario;
+import java.util.List;
 
 public class TelaGerenciarUsuarios extends javax.swing.JFrame {
     
@@ -15,15 +18,23 @@ public class TelaGerenciarUsuarios extends javax.swing.JFrame {
         
         this.tabelaModelo = (DefaultTableModel) tbl_users.getModel();
         
-        carregarDadosTeste();
+        carregarDadosBanco();
     }
     
-    private void carregarDadosTeste() {
-        tabelaModelo.setNumRows(0);
+    public void carregarDadosBanco() {
+       tabelaModelo.setNumRows(0);
         
-        tabelaModelo.addRow(new Object[]{1L, "miguel", "Miguel Garcia", "ADMIN"});
-        tabelaModelo.addRow(new Object[]{2L, "joaosilva", "João Silva", "OPERADOR"});
-        tabelaModelo.addRow(new Object[]{3L, "mariasantos", "Maria Santos", "OPERADOR"});
+        UsuarioDAO dao = new UsuarioDAO();
+        List<Usuario> usuarios = dao.listarTodos();
+        
+        for (Usuario u : usuarios) {
+            tabelaModelo.addRow(new Object[]{
+                u.getId(),
+                u.getLogin(),
+                u.getNome(),
+                u.getPerfil()
+            });
+        }
     }
 
     @SuppressWarnings("unchecked")
@@ -133,7 +144,7 @@ public class TelaGerenciarUsuarios extends javax.swing.JFrame {
 
     private void btn_newActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_newActionPerformed
         // TODO add your handling code here:
-        new TelaCadastroUsuario().setVisible(true);
+        new TelaCadastroUsuario(this).setVisible(true);
     }//GEN-LAST:event_btn_newActionPerformed
 
     private void btn_deleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_deleteActionPerformed
@@ -168,16 +179,26 @@ public class TelaGerenciarUsuarios extends javax.swing.JFrame {
             lbl_warnings.setText("Confirme a exclusão do usuário.");
             lbl_warnings.setForeground(Color.red);
         } else {
-            tabelaModelo.removeRow(linhaSelecionada);
+            UsuarioDAO dao = new UsuarioDAO();
+            boolean deletouNoBanco = dao.excluir(idUsuario);
             
-            lbl_warnings.setText("Usuário '" + loginUsuario + "' removido com sucesso!");
-            lbl_warnings.setForeground(new java.awt.Color(0, 150, 0));
+            if (deletouNoBanco) {
+                tabelaModelo.removeRow(linhaSelecionada);
+                
+                lbl_warnings.setText("Usuário '" + loginUsuario + "' removido com sucesso!");
+                lbl_warnings.setForeground(new java.awt.Color(0, 150, 0));
+            } else {
+                lbl_warnings.setText("Erro crítico: Não foi possível remover do banco de dados.");
+                lbl_warnings.setForeground(Color.red);
+            }
             
             btn_delete.setBackground(null);
             btn_delete.setForeground(Color.black);
             btn_delete.setText("Excluir");
             confirmacao = false;
         }
+        
+        
     }//GEN-LAST:event_btn_deleteActionPerformed
 
 

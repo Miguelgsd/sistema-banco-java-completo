@@ -4,6 +4,11 @@
  */
 package banco.ui;
 
+import banco.dao.UsuarioDAO;
+import banco.model.Usuario;
+import banco.ui.TelaGerenciarUsuarios;
+import java.awt.Color;
+
 /**
  *
  * @author dutrax
@@ -11,11 +16,14 @@ package banco.ui;
 public class TelaCadastroUsuario extends javax.swing.JFrame {
     
     private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(TelaCadastroUsuario.class.getName());
+    
+    private TelaGerenciarUsuarios telaGerenciador;
 
     /**
      * Creates new form TelaCadastroUsuario
      */
-    public TelaCadastroUsuario() {
+    public TelaCadastroUsuario(TelaGerenciarUsuarios gerenciador) {
+        this.telaGerenciador = gerenciador;
         initComponents();
     }
 
@@ -28,25 +36,26 @@ public class TelaCadastroUsuario extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jLabel1 = new javax.swing.JLabel();
+        lbl_title = new javax.swing.JLabel();
         lbl_name = new javax.swing.JLabel();
         lbl_password = new javax.swing.JLabel();
         lbl_confirm_password = new javax.swing.JLabel();
         lbl_profile = new javax.swing.JLabel();
-        edt_name = new javax.swing.JTextField();
+        edt_login = new javax.swing.JTextField();
         edt_confirm_password = new javax.swing.JPasswordField();
         edt_password = new javax.swing.JPasswordField();
         cb_profile = new javax.swing.JComboBox<>();
         btn_cadastro = new javax.swing.JButton();
         btn_back = new javax.swing.JButton();
-        jLabel2 = new javax.swing.JLabel();
-        edt_name1 = new javax.swing.JTextField();
+        lbl_login = new javax.swing.JLabel();
+        edt_name = new javax.swing.JTextField();
+        lbl_warnings = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
-        jLabel1.setFont(new java.awt.Font("Cantarell", 0, 24)); // NOI18N
-        jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel1.setText("Cadastrar Usuário");
+        lbl_title.setFont(new java.awt.Font("Cantarell", 0, 24)); // NOI18N
+        lbl_title.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        lbl_title.setText("Cadastrar Usuário");
 
         lbl_name.setText("Nome:");
 
@@ -56,67 +65,73 @@ public class TelaCadastroUsuario extends javax.swing.JFrame {
 
         lbl_profile.setText("Perfil: ");
 
-        edt_name.addActionListener(this::edt_nameActionPerformed);
+        edt_login.addActionListener(this::edt_loginActionPerformed);
 
         edt_confirm_password.addActionListener(this::edt_confirm_passwordActionPerformed);
 
         cb_profile.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "ADMIN", "OPERADOR" }));
 
         btn_cadastro.setText("Cadastrar");
+        btn_cadastro.addActionListener(this::btn_cadastroActionPerformed);
 
         btn_back.setText("Voltar");
         btn_back.addActionListener(this::btn_backActionPerformed);
 
-        jLabel2.setText("Login: ");
+        lbl_login.setText("Login: ");
 
-        edt_name1.addActionListener(this::edt_name1ActionPerformed);
+        edt_name.addActionListener(this::edt_nameActionPerformed);
+
+        lbl_warnings.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addContainerGap())
-            .addGroup(layout.createSequentialGroup()
-                .addGap(128, 128, 128)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(61, 61, 61)
-                        .addComponent(btn_cadastro)
-                        .addGap(114, 114, 114)
-                        .addComponent(btn_back))
+                        .addContainerGap()
+                        .addComponent(lbl_title, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                     .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(lbl_confirm_password, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(lbl_password, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(lbl_profile, javax.swing.GroupLayout.PREFERRED_SIZE, 118, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                .addComponent(jLabel2)
-                                .addComponent(lbl_name, javax.swing.GroupLayout.PREFERRED_SIZE, 117, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                        .addGap(26, 26, 26)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(edt_name)
-                            .addComponent(edt_password)
-                            .addComponent(edt_confirm_password)
-                            .addComponent(cb_profile, javax.swing.GroupLayout.PREFERRED_SIZE, 228, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(edt_name1))))
-                .addContainerGap(135, Short.MAX_VALUE))
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(layout.createSequentialGroup()
+                                .addGap(163, 163, 163)
+                                .addComponent(btn_cadastro)
+                                .addGap(114, 114, 114)
+                                .addComponent(btn_back))
+                            .addGroup(layout.createSequentialGroup()
+                                .addGap(128, 128, 128)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                    .addComponent(lbl_confirm_password, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addComponent(lbl_password, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addComponent(lbl_profile, javax.swing.GroupLayout.PREFERRED_SIZE, 118, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                        .addComponent(lbl_login)
+                                        .addComponent(lbl_name, javax.swing.GroupLayout.PREFERRED_SIZE, 117, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                .addGap(26, 26, 26)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                    .addComponent(edt_login)
+                                    .addComponent(edt_password)
+                                    .addComponent(edt_confirm_password)
+                                    .addComponent(cb_profile, javax.swing.GroupLayout.PREFERRED_SIZE, 228, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(edt_name))))
+                        .addGap(0, 129, Short.MAX_VALUE)))
+                .addContainerGap())
+            .addComponent(lbl_warnings, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addGap(16, 16, 16)
-                .addComponent(jLabel1)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 33, Short.MAX_VALUE)
+                .addComponent(lbl_title)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 52, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel2)
-                    .addComponent(edt_name, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(lbl_login)
+                    .addComponent(edt_login, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(lbl_name)
-                    .addComponent(edt_name1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(edt_name, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(17, 17, 17)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(lbl_password)
@@ -129,11 +144,13 @@ public class TelaCadastroUsuario extends javax.swing.JFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(lbl_profile)
                     .addComponent(cb_profile, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(59, 59, 59)
+                .addGap(33, 33, 33)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btn_cadastro)
                     .addComponent(btn_back))
-                .addGap(59, 59, 59))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(lbl_warnings, javax.swing.GroupLayout.PREFERRED_SIZE, 27, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(33, 33, 33))
         );
 
         pack();
@@ -144,18 +161,64 @@ public class TelaCadastroUsuario extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_edt_confirm_passwordActionPerformed
 
-    private void edt_nameActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_edt_nameActionPerformed
+    private void edt_loginActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_edt_loginActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_edt_nameActionPerformed
+    }//GEN-LAST:event_edt_loginActionPerformed
 
     private void btn_backActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_backActionPerformed
         // TODO add your handling code here:
         this.dispose();
     }//GEN-LAST:event_btn_backActionPerformed
 
-    private void edt_name1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_edt_name1ActionPerformed
+    private void edt_nameActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_edt_nameActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_edt_name1ActionPerformed
+    }//GEN-LAST:event_edt_nameActionPerformed
+
+    private void btn_cadastroActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_cadastroActionPerformed
+        // TODO add your handling code here:
+        String login = edt_login.getText().trim();
+        String nome = edt_name.getText().trim();
+        String senha = new String(edt_password.getPassword());
+        String confirmarSenha = new String(edt_confirm_password.getPassword());
+        String perfil = cb_profile.getSelectedItem().toString();
+        
+        // (Suas validações de campos vazios e senhas iguais continuam aqui...)
+        if (nome.isEmpty() || senha.isEmpty() || confirmarSenha.isEmpty() || perfil.isEmpty()){
+            lbl_warnings.setForeground(Color.red);
+            lbl_warnings.setText("Por favor, preencha todos os campos!");
+            return;
+        }
+        
+        if (!senha.equals(confirmarSenha)) {
+            lbl_warnings.setForeground(Color.red);
+            lbl_warnings.setText("As senhas informadas não coincidem!");
+            return; // << Também interrompe o fluxo aqui
+        }
+        
+        // 1. Monta o objeto modelo com os dados da tela
+        Usuario novoUsuario = new Usuario();
+        novoUsuario.setNome(nome);
+        novoUsuario.setLogin(login); // Login gerado temporário
+        novoUsuario.setSenha(senha);
+        novoUsuario.setPerfil(perfil);
+        
+        // 2. Envia para o banco de dados via DAO
+        UsuarioDAO dao = new UsuarioDAO();
+        boolean sucesso = dao.salvar(novoUsuario);
+        
+        if (sucesso) {
+            // Fecha a tela de cadastro
+            this.dispose();
+            
+            // Recarrega a tabela da tela mãe se a referência existir!
+            if (telaGerenciador != null) {
+                telaGerenciador.carregarDadosBanco(); 
+            }
+        } else {
+            lbl_warnings.setForeground(Color.red);
+            lbl_warnings.setText("Erro ao salvar o usuário no banco de dados.");
+        }
+    }//GEN-LAST:event_btn_cadastroActionPerformed
 
     /**
      * @param args the command line arguments
@@ -166,14 +229,15 @@ public class TelaCadastroUsuario extends javax.swing.JFrame {
     private javax.swing.JButton btn_cadastro;
     private javax.swing.JComboBox<String> cb_profile;
     private javax.swing.JPasswordField edt_confirm_password;
+    private javax.swing.JTextField edt_login;
     private javax.swing.JTextField edt_name;
-    private javax.swing.JTextField edt_name1;
     private javax.swing.JPasswordField edt_password;
-    private javax.swing.JLabel jLabel1;
-    private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel lbl_confirm_password;
+    private javax.swing.JLabel lbl_login;
     private javax.swing.JLabel lbl_name;
     private javax.swing.JLabel lbl_password;
     private javax.swing.JLabel lbl_profile;
+    private javax.swing.JLabel lbl_title;
+    private javax.swing.JLabel lbl_warnings;
     // End of variables declaration//GEN-END:variables
 }

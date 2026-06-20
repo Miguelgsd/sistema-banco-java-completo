@@ -2,6 +2,8 @@ package banco.ui;
 
 import java.awt.Color;
 import javax.swing.Timer;
+import banco.dao.UsuarioDAO;
+import banco.model.Usuario;
 
 public class TelaLogin extends javax.swing.JFrame {
     
@@ -113,13 +115,20 @@ public class TelaLogin extends javax.swing.JFrame {
             return;
         }
         
+        banco.dao.UsuarioDAO dao = new banco.dao.UsuarioDAO();
+        banco.model.Usuario usuarioLogado = dao.validarLogin(user, password);
+        
         String usuarioCorreto = "miguel";
-        String perfil = "ADMIN";
         String senhaCorreta = "1234";
+        String perfil = "ADMIN";
         int restantes = 3;
         
-        if(user.equals(usuarioCorreto) && password.equals(senhaCorreta)){
-            new TelaMenuPrincipal(usuarioCorreto, perfil).setVisible(true);
+        if(usuarioLogado != null || (user.equals(usuarioCorreto) && password.equals(senhaCorreta))){
+                
+            String nomeMenu = (usuarioLogado != null) ? usuarioLogado.getNome() : "Miguel Admin";
+            String perfilMenu = (usuarioLogado != null) ? usuarioLogado.getPerfil() : perfil;
+            
+            new TelaMenuPrincipal(nomeMenu, perfilMenu).setVisible(true);
             this.dispose();
             
         } else {
@@ -130,27 +139,25 @@ public class TelaLogin extends javax.swing.JFrame {
                 btn_login.setEnabled(false);
                 
                 temporizador = new Timer(1000, new java.awt.event.ActionListener() {
-                private int segundosRestantes = 10;
+                    private int segundosRestantes = 10;
 
-                @Override
-                public void actionPerformed(java.awt.event.ActionEvent e) {
-                    segundosRestantes--;
-                    
-                    if (segundosRestantes > 0) {
-                        lbl_error.setText("Acesso bloqueado! Aguarde " + segundosRestantes + "s");
-                    } else {
-                        temporizador.stop();
-                        btn_login.setEnabled(true);
-                        tentativas = 0;
-                        lbl_error.setForeground(new java.awt.Color(0, 150, 0));
-                        lbl_error.setText("Sistema liberado. Tente novamente.");
+                    @Override
+                    public void actionPerformed(java.awt.event.ActionEvent e) {
+                        segundosRestantes--;
+                        if (segundosRestantes > 0) {
+                            lbl_error.setText("Acesso bloqueado! Aguarde " + segundosRestantes + "s");
+                        } else {
+                            temporizador.stop();
+                            btn_login.setEnabled(true);
+                            tentativas = 0;
+                            lbl_error.setForeground(new java.awt.Color(0, 150, 0));
+                            lbl_error.setText("Sistema liberado. Tente novamente.");
+                        }
                     }
-                }
-            });
+                });
                 temporizador.start();
             } else {
                 restantes -= tentativas;
-                lbl_error.setText("");
                 lbl_error.setText("Usuário e/ou senha incorreto(s). Tentativas restantes: " + restantes);
                 edt_password.setText("");
                 edt_user.setText("");
