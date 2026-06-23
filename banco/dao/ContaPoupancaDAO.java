@@ -33,7 +33,7 @@ public class ContaPoupancaDAO{
         return null;
     }
     
-    public boolean atualizar(String numeroConta, double novoSaldo){
+    public boolean atualizarSaldo(String numeroConta, double novoSaldo){
         String sql = "UPDATE contas_poupanca SET saldo = ? WHERE numeroConta = ?";
         
         try (Connection conn = ConexaoDB.getConnection();
@@ -134,6 +134,51 @@ public class ContaPoupancaDAO{
             
         } catch (SQLException e){
             System.err.print("Erro ao excluir a conta: " + e);
+            return false;
+        }
+    }
+    
+    public List listarTodas(){
+        List<ContaPoupanca> contas = new ArrayList<>();
+        String sql = "SELECT numero_conta, saldo, taxa_rendimento FROM contas_poupanca";
+        
+        try(Connection conn = ConexaoDB.getConnection();
+            PreparedStatement stmt = conn.prepareStatement(sql)){
+            
+            
+            try(ResultSet rs = stmt.executeQuery()){
+                while(rs.next()){
+                    String numero = rs.getString("numero_conta");
+                    double saldo = rs.getDouble("saldo");
+                    double taxa = rs.getDouble("taxa_rendimento");
+                    
+                    ContaPoupanca conta = new ContaPoupanca(numero, null, saldo, taxa);
+                    contas.add(conta);
+                }
+            }
+        
+        } catch(SQLException e){
+            System.err.print("Não foi possível buscar as contas: " + e);
+        }
+        return contas;
+        
+    }
+    
+    public boolean atualizar(ContaPoupanca conta){
+        String sql = "UPDATE contas_poupanca SET taxa_rendimento = ? WHERE numero_conta = ?";
+        
+        try (Connection conn = ConexaoDB.getConnection();
+             PreparedStatement stmt = conn.prepareStatement(sql)){
+            
+            stmt.setDouble(1, conta.getTaxaRendimentoMensal());
+            stmt.setString(1, conta.getNumeroConta());
+            
+            int linhasAfetadas = stmt.executeUpdate();
+            
+            return linhasAfetadas > 0;
+            
+        } catch (SQLException e){
+            System.err.print("Erro ao atualizar os dados cadastrais: " + e);
             return false;
         }
     }
