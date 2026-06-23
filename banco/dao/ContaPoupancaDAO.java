@@ -74,7 +74,7 @@ public class ContaPoupancaDAO{
     
     public List buscarHistorico(int contaId){
         List<String> historico = new ArrayList<>();
-        String sql = "SELECT descricao, valor, data_hora FROM transacoes WHERE contaId = ?";
+        String sql = "SELECT descricao, valor, data_hora FROM transacoes WHERE conta_id = ?";
         
         try(Connection conn = ConexaoDB.getConnection();
             PreparedStatement stmt = conn.prepareStatement(sql)){
