@@ -97,4 +97,26 @@ public class ContaPoupancaDAO{
         }
         return historico;
     }
+    
+    public boolean salvar(ContaPoupanca conta, Long clienteId){
+        String sql = "INSERT INTO contas_poupanca (numero_conta, saldo, taxa_rendimento, cliente_id) VALUES (?, ?, ?, ?)";
+        
+        try (Connection conn = ConexaoDB.getConnection();
+             PreparedStatement stmt = conn.prepareStatement(sql)){
+            
+            stmt.setString(1, conta.getNumeroConta());
+            stmt.setDouble(2, conta.getSaldo());
+            stmt.setDouble(3, conta.getTaxaRendimentoMensal());
+            stmt.setLong(4, clienteId);
+            
+            
+            int linhasAfetadas = stmt.executeUpdate();
+            
+            return linhasAfetadas > 0;
+            
+        } catch (SQLException e){
+            System.err.print("Não foi possível registrar a transação: " + e);
+            return false;
+        }
+    }
 }

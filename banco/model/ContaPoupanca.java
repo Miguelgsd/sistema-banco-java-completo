@@ -5,6 +5,10 @@ import javax.swing.JOptionPane;
 public class ContaPoupanca extends ContaBancaria {
     private double taxaRendimentoMensal;
 
+    public double getTaxaRendimentoMensal() {
+        return taxaRendimentoMensal;
+    }
+
     public ContaPoupanca(String numeroConta, Cliente titular, double saldoInicial, double taxa){
         super(numeroConta, titular, saldoInicial);
         this.taxaRendimentoMensal = taxa;
