@@ -11,7 +11,7 @@ import java.util.ArrayList;
 public class ContaPoupancaDAO{
     
     public ContaPoupanca buscarPorNumero(String numeroConta){
-        String sql = "SELECT saldo, taxa_rendimento FROM contas_poupanca WHERE numeroConta = ?";
+        String sql = "SELECT saldo, taxa_rendimento FROM contas_poupanca WHERE numero_conta = ?";
         
         try (Connection conn = ConexaoDB.getConnection();
              PreparedStatement stmt = conn.prepareStatement(sql)){
@@ -34,7 +34,7 @@ public class ContaPoupancaDAO{
     }
     
     public boolean atualizarSaldo(String numeroConta, double novoSaldo){
-        String sql = "UPDATE contas_poupanca SET saldo = ? WHERE numeroConta = ?";
+        String sql = "UPDATE contas_poupanca SET saldo = ? WHERE numero_conta = ?";
         
         try (Connection conn = ConexaoDB.getConnection();
              PreparedStatement stmt = conn.prepareStatement(sql)){
@@ -53,7 +53,7 @@ public class ContaPoupancaDAO{
     }
     
     public boolean registrarTransacao(int contaId, String descricao, double valor){
-        String sql = "INSERT INTO transacoes (conta_id, tipo_conta, descricao, valor) VALUES (?, POUPANCA, ?, ?)";
+        String sql = "INSERT INTO transacoes (conta_id, tipo_conta, descricao, valor) VALUES (?, 'POUPANCA', ?, ?)";
         
         try (Connection conn = ConexaoDB.getConnection();
              PreparedStatement stmt = conn.prepareStatement(sql)){
@@ -121,7 +121,7 @@ public class ContaPoupancaDAO{
     }
     
     public boolean excluir(String numeroConta){
-        String sql = "DELETE FROM contas_poupanca WHERE numeroConta = ?";
+        String sql = "DELETE FROM contas_poupanca WHERE numero_conta = ?";
         
         try (Connection conn = ConexaoDB.getConnection();
              PreparedStatement stmt = conn.prepareStatement(sql)){
@@ -171,7 +171,7 @@ public class ContaPoupancaDAO{
              PreparedStatement stmt = conn.prepareStatement(sql)){
             
             stmt.setDouble(1, conta.getTaxaRendimentoMensal());
-            stmt.setString(1, conta.getNumeroConta());
+            stmt.setString(2, conta.getNumeroConta());
             
             int linhasAfetadas = stmt.executeUpdate();
             
