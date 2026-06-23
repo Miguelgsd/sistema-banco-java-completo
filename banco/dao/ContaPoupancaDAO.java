@@ -119,4 +119,22 @@ public class ContaPoupancaDAO{
             return false;
         }
     }
+    
+    public boolean excluir(String numeroConta){
+        String sql = "DELETE FROM contas_poupanca WHERE numeroConta = ?";
+        
+        try (Connection conn = ConexaoDB.getConnection();
+             PreparedStatement stmt = conn.prepareStatement(sql)){
+            
+            stmt.setString(1, numeroConta);
+            
+            int linhasAfetadas = stmt.executeUpdate();
+            
+            return linhasAfetadas > 0;
+            
+        } catch (SQLException e){
+            System.err.print("Erro ao excluir a conta: " + e);
+            return false;
+        }
+    }
 }
