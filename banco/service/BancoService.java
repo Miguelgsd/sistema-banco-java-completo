@@ -1,101 +1,125 @@
 package banco.service;
 
 import java.util.List;
-import java.util.ArrayList;
 import javax.swing.JOptionPane;
+import banco.dao.ContaCorrenteDAO;
+import banco.dao.ContaPoupancaDAO;
 import banco.model.ContaBancaria;
 import banco.model.ContaCorrente;
 import banco.model.ContaPoupanca;
 
 public class BancoService {
-    private List<ContaCorrente> contasCorrentes;
-    private List<ContaPoupanca> contasPoupanca;
+    private final ContaCorrenteDAO contaCorrente = new ContaCorrenteDAO();
+    private final ContaPoupancaDAO contaPoupanca = new ContaPoupancaDAO();
 
     public BancoService() {
-        this.contasCorrentes = new ArrayList<>();
-        this.contasPoupanca = new ArrayList<>();
-    }
-
-    public void cadastrarContaCorrente(ContaCorrente cc){
-        this.contasCorrentes.add(cc);
-    }
-
-    public void cadastrarContaPoupanca(ContaPoupanca cp){
-        this.contasPoupanca.add(cp);
     }
 
     public ContaBancaria buscarConta(String numeroConta){
-
-        for(ContaCorrente conta : contasCorrentes){
-            if(conta.getNumeroConta().equals(numeroConta)){
-                return conta;
-            }
-        }
-
-        for(ContaPoupanca conta : contasPoupanca){
-            if(conta.getNumeroConta().equals(numeroConta)){
-                return conta;
-            }
+        ContaCorrente cc = contaCorrente.buscaPorNumero(numeroConta);
+        if (cc != null){
+            return cc;
         }
         
-        return null;
-    }
-
-    public void listarTodasAsContas(){
-        StringBuilder infos = new StringBuilder();
-        infos.append("---------- Informações Gerais ----------\n\n");
-        infos.append("Conta Corrente:\n\n");
-        for(ContaCorrente conta : contasCorrentes){
-            infos.append("Número: ").append(conta.getNumeroConta()).append("\n");
-            infos.append("Titular: ").append(conta.getTitular().getNome()).append("\n");
-            infos.append("Saldo: R$").append(String.format("%.2f", conta.getSaldo())).append("\n\n");
-        }
-
-        infos.append("Conta Poupança:\n\n");
-        for(ContaPoupanca conta : contasPoupanca){
-            infos.append("Número: ").append(conta.getNumeroConta()).append("\n");
-            infos.append("Titular: ").append(conta.getTitular().getNome()).append("\n");
-            infos.append("Saldo: R$").append(String.format("%.2f", conta.getSaldo())).append("\n\n");
-        }
-
-        JOptionPane.showMessageDialog(null, infos.toString(), "Contas", JOptionPane.INFORMATION_MESSAGE);
+        return contaPoupanca.buscarPorNumero(numeroConta);
     }
 
     public double calcularPatrimonioTotal(){
         double patrimonio = 0.0;
-
-        for(ContaCorrente cc : contasCorrentes){
+        
+        List<ContaCorrente> correntes = contaCorrente.listarTodas();
+        for(ContaCorrente cc : correntes){
             patrimonio += cc.getSaldo();
         }
-
-        for(ContaPoupanca cp : contasPoupanca){
+        
+        List<ContaPoupanca> poupancas = contaPoupanca.listarTodas();
+        for(ContaPoupanca cp : poupancas){
             patrimonio += cp.getSaldo();
         }
-
+        
         return patrimonio;
     }
 
     public void exibirRelatorioGeral(){
+        List<ContaCorrente> correntes = contaCorrente.listarTodas();
+        List<ContaPoupanca> poupancas = contaPoupanca.listarTodas();
+        
         ContaBancaria contaMaior = null;
         ContaBancaria contaMenor = null;
 
-        for (ContaCorrente cc : contasCorrentes) {
-            if (contaMaior == null || cc.getSaldo() > contaMaior.getSaldo()) {
+        for (ContaCorrente cc : correntes) {
+            if (contaMaior == null || cc.getSaldo() > contaMaior.getSaldo()) 
                 contaMaior = cc;
-            }
-            if (contaMenor == null || cc.getSaldo() < contaMenor.getSaldo()) {
+            if (contaMenor == null || cc.getSaldo() < contaMenor.getSaldo()) 
                 contaMenor = cc;
-            }
         }
 
-        for (ContaPoupanca cp : contasPoupanca) {
-            if (contaMaior == null || cp.getSaldo() > contaMaior.getSaldo()) {
+        for (ContaPoupanca cp : poupancas) {
+            if (contaMaior == null || cp.getSaldo() > contaMaior.getSaldo()) 
                 contaMaior = cp;
-            }
-            if (contaMenor == null || cp.getSaldo() < contaMenor.getSaldo()) {
+            if (contaMenor == null || cp.getSaldo() < contaMenor.getSaldo()) 
                 contaMenor = cp;
-            }
         }
-            JOptionPane.showMessageDialog(null, "------- Relatório -------\n\n" + "Nº de Contas Correntes: " + contasCorrentes.size() + "\nNº de Contas Poupanças: " + contasPoupanca.size() + "\nPatrimônio total: R$" + String.format("%.2f", calcularPatrimonioTotal()) + "\nMaior saldo: " + contaMaior.getTitular().getNome() + "; " + contaMaior.getNumeroConta() + "; R$" + String.format("%.2f", contaMaior.getSaldo()) + "\nMenor saldo: " + contaMenor.getTitular().getNome() + "; " + contaMenor.getNumeroConta() + "; R$" + String.format("%.2f", contaMenor.getSaldo()));
+        
+        if (contaMaior == null || contaMenor == null) {
+            JOptionPane.showMessageDialog(null, "Não há contas registradas no banco de dados para gerar relatório.");
+            return;
         }
+
+        JOptionPane.showMessageDialog(null, 
+            "------- Relatório PostgreSQL -------\n\n" + 
+            "Nº de Contas Correntes: " + correntes.size() + 
+            "\nNº de Contas Poupanças: " + poupancas.size() + 
+            "\nPatrimônio total: R$" + String.format("%.2f", calcularPatrimonioTotal()) + 
+            "\nMaior saldo: Conta " + contaMaior.getNumeroConta() + " -> R$" + String.format("%.2f", contaMaior.getSaldo()) + 
+            "\nMenor saldo: Conta " + contaMenor.getNumeroConta() + " -> R$" + String.format("%.2f", contaMenor.getSaldo())
+        );
+    }
+    
+    public String depositarPoupanca(String numeroConta, double valor){
+        if(valor <= 0){
+            return "Erro: o valor deve ser maior que zero";
+        }
+        
+        ContaPoupanca poupanca = contaPoupanca.buscarPorNumero(numeroConta);
+        if(poupanca == null){
+            return "Erro: conta " + numeroConta + " não encontrada";
+        }
+        
+        double novoSaldo = poupanca.getSaldo() + valor;
+        boolean atualizou = contaPoupanca.atualizarSaldo(numeroConta, novoSaldo);
+        
+        if(atualizou){
+            contaPoupanca.registrarTransacao(1, "Depósito de R$" + valor, valor);
+            return "Sucesso: depósito realizado!";
+        }
+        
+        return "Erro: não foi possível atualizar o saldo no banco.";
+    }
+    
+    public String sacarPoupanca(String numeroConta, double valor){
+        if(valor <= 0){
+            return "Erro: o valor deve ser maior que zero";
+        }
+        
+        ContaPoupanca poupanca = contaPoupanca.buscarPorNumero(numeroConta);
+        if(poupanca == null){
+            return "Erro: não foi possível encontrar a conta";
+        }
+        
+        if(poupanca.getSaldo() < valor){
+            return "Erro: saldo insuficiente.\nSaldo disponível: " + String.format("%.2f", poupanca.getSaldo());
+        }
+        
+        double novoSaldo = poupanca.getSaldo() - valor;
+        
+        boolean atualizou = contaPoupanca.atualizarSaldo(numeroConta, novoSaldo);
+        
+        if(atualizou){
+            contaPoupanca.registrarTransacao(1, "Valor retirado: R$" + valor, valor);
+            return "Sucesso: saque realizado no valor de R$" + String.format("%.2f", valor);
+        }
+        
+        return "Não foi possível realizar o saque";
+    }
 }
