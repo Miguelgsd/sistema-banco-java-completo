@@ -90,7 +90,7 @@ public class BancoService {
         boolean atualizou = contaPoupanca.atualizarSaldo(numeroConta, novoSaldo);
         
         if(atualizou){
-            contaPoupanca.registrarTransacao(1, "Depósito de R$" + valor, valor);
+            contaPoupanca.registrarTransacao(1, "Depósito em dinheiro", valor);
             return "Sucesso: depósito realizado!";
         }
         
@@ -121,5 +121,27 @@ public class BancoService {
         }
         
         return "Não foi possível realizar o saque";
+    }
+    
+    public String depositarCorrente(String numeroConta, double valor){
+        if(valor <= 0){
+            return "Erro: o valor deve ser positivo.";
+        }
+        
+        ContaCorrente corrente = contaCorrente.buscaPorNumero(numeroConta);
+        if(corrente == null){
+            return "Erro: não foi possível encontrar a conta";
+        }
+        
+        double novoSaldo = corrente.getSaldo() + valor;
+        
+        boolean atualizou = contaCorrente.atualizarSaldo(numeroConta, novoSaldo, corrente.getLimite());
+        
+        if(atualizou){
+            contaCorrente.registrarTransacao(1, "Depósito em dinheiro", valor);
+            return "Sucesso: depósito realizado no valor de R$" + String.format("%.2f", valor);
+        }
+        
+        return "Erro: não foi possível atualizar o saldo";
     }
 }
