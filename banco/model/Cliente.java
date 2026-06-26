@@ -13,6 +13,9 @@ public class Cliente {
 		this.telefone = telefone;
 	}
 
+        public Cliente() {
+        }
+
 	public void setNome(String nome){
 		this.nome = nome;
 	}

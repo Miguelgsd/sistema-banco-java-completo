@@ -78,7 +78,7 @@ public class ContaPoupancaDAO{
         
         try(Connection conn = ConexaoDB.getConnection();
             PreparedStatement stmt = conn.prepareStatement(sql)){
-            
+                
             stmt.setInt(1, contaId);
             
             try(ResultSet rs = stmt.executeQuery()){
