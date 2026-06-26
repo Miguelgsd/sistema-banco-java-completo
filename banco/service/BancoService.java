@@ -116,7 +116,7 @@ public class BancoService {
         boolean atualizou = contaPoupanca.atualizarSaldo(numeroConta, novoSaldo);
         
         if(atualizou){
-            contaPoupanca.registrarTransacao(1, "Valor retirado: R$" + valor, valor);
+            contaPoupanca.registrarTransacao(1, "Saque realizado" + valor, valor);
             return "Sucesso: saque realizado no valor de R$" + String.format("%.2f", valor);
         }
         
@@ -143,5 +143,36 @@ public class BancoService {
         }
         
         return "Erro: não foi possível atualizar o saldo";
+    }
+    
+    public String sacarCorrente(String numeroConta, double valor){
+        if(valor <= 0){
+            return "Erro: o valor deve ser positivo.";
+        }
+        
+        ContaCorrente corrente = contaCorrente.buscaPorNumero(numeroConta);
+        if(corrente == null){
+            return "Erro: não foi possível encontrar a conta";
+        }
+        
+        double saldoDisponivel = corrente.getSaldo() + corrente.getLimite();
+        
+        if(saldoDisponivel < valor){
+            return "Erro: saldo e limite insuficientes para a realização do saque. Disponível: " + String.format("%.2f", saldoDisponivel);
+        }
+        
+        double novoSaldo = corrente.getSaldo() - valor;
+        double novoLimite = corrente.getLimite();
+        
+        if(novoSaldo < 0){
+            novoLimite = corrente.getLimite() + novoSaldo;
+        }
+        
+        boolean atualizou = contaCorrente.atualizarSaldo(numeroConta, novoSaldo, novoLimite);
+        if(atualizou){
+            contaCorrente.registrarTransacao(1, "Saque realizado", valor);
+            return "Sucesso: saque realizado no valor de R$" + String.format("%.2f", valor);
+        }
+        return "Erro: não foi possível realizar o saque.";
     }
 }
