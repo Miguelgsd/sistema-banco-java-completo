@@ -49,6 +49,7 @@ public class TelaMenuPrincipal extends javax.swing.JFrame {
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
         btn_cad_cliente.setText("Cadastrar Cliente");
+        btn_cad_cliente.addActionListener(this::btn_cad_clienteActionPerformed);
 
         btn_deposito.setText("Depósito");
         btn_deposito.addActionListener(this::btn_depositoActionPerformed);
@@ -199,6 +200,11 @@ public class TelaMenuPrincipal extends javax.swing.JFrame {
         // TODO add your handling code here:
         new TelaOperacoes("TRANSFERENCIA").setVisible(true);
     }//GEN-LAST:event_btn_transferenciaActionPerformed
+
+    private void btn_cad_clienteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_cad_clienteActionPerformed
+        // TODO add your handling code here:
+        new TelaCadastroCliente().setVisible(true);
+    }//GEN-LAST:event_btn_cad_clienteActionPerformed
 
     /**
      * @param args the command line arguments
