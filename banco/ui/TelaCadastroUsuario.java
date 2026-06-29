@@ -202,7 +202,7 @@ public class TelaCadastroUsuario extends javax.swing.JFrame {
             }
         } else {
             lbl_warnings.setForeground(Color.red);
-            lbl_warnings.setText(resultado); // Exibe o erro exato vindo da Service
+            lbl_warnings.setText(resultado);
         }
     }//GEN-LAST:event_btn_cadastroActionPerformed
 

@@ -1,5 +1,7 @@
 package banco.ui;
 
+import banco.service.BancoService;
+
 public class TelaMenuPrincipal extends javax.swing.JFrame {
     
     private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(TelaMenuPrincipal.class.getName());
@@ -55,12 +57,15 @@ public class TelaMenuPrincipal extends javax.swing.JFrame {
         btn_cad_corrente.addActionListener(this::btn_cad_correnteActionPerformed);
 
         btn_saque.setText("Saque");
+        btn_saque.addActionListener(this::btn_saqueActionPerformed);
 
         btn_cad_poupanca.setText("Cadastrar Conta Poupança");
 
         btn_transferencia.setText("Transferência");
+        btn_transferencia.addActionListener(this::btn_transferenciaActionPerformed);
 
         btn_relatorio.setText("Relatório Geral");
+        btn_relatorio.addActionListener(this::btn_relatorioActionPerformed);
 
         btn_extrato.setText("Extrato");
 
@@ -170,12 +175,30 @@ public class TelaMenuPrincipal extends javax.swing.JFrame {
 
     private void btn_depositoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_depositoActionPerformed
         // TODO add your handling code here:
+        new TelaOperacoes("DEPOSITO").setVisible(true);
     }//GEN-LAST:event_btn_depositoActionPerformed
 
     private void btn_gerenciar_usuariosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_gerenciar_usuariosActionPerformed
         // TODO add your handling code here:
         new TelaGerenciarUsuarios().setVisible(true);
     }//GEN-LAST:event_btn_gerenciar_usuariosActionPerformed
+
+    private void btn_relatorioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_relatorioActionPerformed
+        // TODO add your handling code here:
+        BancoService servico = new BancoService();
+        
+        servico.exibirRelatorioGeral();
+    }//GEN-LAST:event_btn_relatorioActionPerformed
+
+    private void btn_saqueActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_saqueActionPerformed
+        // TODO add your handling code here:
+        new TelaOperacoes("SAQUE").setVisible(true);
+    }//GEN-LAST:event_btn_saqueActionPerformed
+
+    private void btn_transferenciaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_transferenciaActionPerformed
+        // TODO add your handling code here:
+        new TelaOperacoes("TRANSFERENCIA").setVisible(true);
+    }//GEN-LAST:event_btn_transferenciaActionPerformed
 
     /**
      * @param args the command line arguments
