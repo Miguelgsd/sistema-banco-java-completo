@@ -172,6 +172,7 @@ public class TelaMenuPrincipal extends javax.swing.JFrame {
 
     private void btn_cad_correnteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_cad_correnteActionPerformed
         // TODO add your handling code here:
+        new TelaCadastroContaCorrente().setVisible(true);
     }//GEN-LAST:event_btn_cad_correnteActionPerformed
 
     private void btn_depositoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_depositoActionPerformed
