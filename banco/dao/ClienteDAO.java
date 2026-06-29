@@ -12,13 +12,14 @@ import banco.dao.ConexaoDB;
 public class ClienteDAO {
 
     public boolean salvar(Cliente cliente) {
-        String sql = "INSERT INTO clientes (nome, cpf) VALUES (?, ?)";
+        String sql = "INSERT INTO clientes (nome, cpf, telefone) VALUES (?, ?, ?)";
         
         try (Connection conn = ConexaoDB.getConnection();
              PreparedStatement stmt = conn.prepareStatement(sql)) {
             
             stmt.setString(1, cliente.getNome());
             stmt.setString(2, cliente.getCpf());
+            stmt.setString(3, cliente.getTelefone());
             
             int linhasAfetadas = stmt.executeUpdate();
             return linhasAfetadas > 0;

@@ -39,6 +39,8 @@ public class TelaCadastroCliente extends javax.swing.JFrame {
         btn_salvar = new javax.swing.JButton();
         btn_cancelar = new javax.swing.JButton();
         lbl_warnings = new javax.swing.JLabel();
+        lbl_telefone = new javax.swing.JLabel();
+        edt_telefone = new javax.swing.JTextField();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -56,8 +58,12 @@ public class TelaCadastroCliente extends javax.swing.JFrame {
         btn_salvar.addActionListener(this::btn_salvarActionPerformed);
 
         btn_cancelar.setText("Cancelar");
+        btn_cancelar.addActionListener(this::btn_cancelarActionPerformed);
 
         lbl_warnings.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+
+        lbl_telefone.setFont(new java.awt.Font("Cantarell", 0, 17)); // NOI18N
+        lbl_telefone.setText("Telefone:");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -71,17 +77,19 @@ public class TelaCadastroCliente extends javax.swing.JFrame {
                                 .addGap(97, 97, 97)
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addComponent(lbl_cpf)
-                                    .addComponent(lbl_nome))
+                                    .addComponent(lbl_nome)
+                                    .addComponent(lbl_telefone))
                                 .addGap(45, 45, 45)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(edt_nome, javax.swing.GroupLayout.PREFERRED_SIZE, 243, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(edt_cpf, javax.swing.GroupLayout.PREFERRED_SIZE, 243, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                    .addComponent(edt_nome, javax.swing.GroupLayout.DEFAULT_SIZE, 243, Short.MAX_VALUE)
+                                    .addComponent(edt_cpf)
+                                    .addComponent(edt_telefone)))
                             .addGroup(layout.createSequentialGroup()
                                 .addGap(169, 169, 169)
                                 .addComponent(btn_salvar)
                                 .addGap(33, 33, 33)
                                 .addComponent(btn_cancelar)))
-                        .addGap(0, 127, Short.MAX_VALUE))
+                        .addGap(0, 106, Short.MAX_VALUE))
                     .addGroup(layout.createSequentialGroup()
                         .addContainerGap()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -102,13 +110,17 @@ public class TelaCadastroCliente extends javax.swing.JFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addComponent(lbl_cpf)
                     .addComponent(edt_cpf, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(80, 80, 80)
+                .addGap(18, 18, 18)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(lbl_telefone)
+                    .addComponent(edt_telefone, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(40, 40, 40)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btn_salvar)
                     .addComponent(btn_cancelar))
                 .addGap(34, 34, 34)
                 .addComponent(lbl_warnings)
-                .addContainerGap(62, Short.MAX_VALUE))
+                .addContainerGap(59, Short.MAX_VALUE))
         );
 
         pack();
@@ -119,8 +131,9 @@ public class TelaCadastroCliente extends javax.swing.JFrame {
         // TODO add your handling code here:
         String nome = edt_nome.getText().trim();
         String cpf = edt_cpf.getText().trim();
+        String telefone = edt_telefone.getText().trim();
         
-        if (nome.isEmpty() || cpf.isEmpty()) {
+        if (nome.isEmpty() || cpf.isEmpty() || telefone.isEmpty()) {
             lbl_warnings.setForeground(java.awt.Color.RED);
             lbl_warnings.setText("Por favor, preencha todos os campos!");
             return;
@@ -129,6 +142,7 @@ public class TelaCadastroCliente extends javax.swing.JFrame {
         Cliente novoCliente = new Cliente();
         novoCliente.setNome(nome);
         novoCliente.setCpf(cpf);
+        novoCliente.setTelefone(telefone);
         
         ClienteDAO dao = new ClienteDAO();
         
@@ -141,13 +155,14 @@ public class TelaCadastroCliente extends javax.swing.JFrame {
         boolean sucesso = dao.salvar(novoCliente);
         
         if(sucesso){
-            lbl_warnings.setForeground(new java.awt.Color(0, 150, 0)); // Verde
+            lbl_warnings.setForeground(new java.awt.Color(0, 150, 0));
             lbl_warnings.setText("Cliente cadastrado com sucesso!");
-            
-            // Limpa os campos para o próximo cadastro
+
             edt_nome.setText("");
             edt_cpf.setText("");
-            edt_nome.requestFocus(); // Joga o cursor de digitação de volta para o nome
+            edt_telefone.setText("");
+            edt_nome.requestFocus();
+            edt_nome.requestFocus();
         } else {
             lbl_warnings.setForeground(java.awt.Color.RED);
             lbl_warnings.setText("Erro físico ao salvar o cliente no banco de dados.");
@@ -155,14 +170,21 @@ public class TelaCadastroCliente extends javax.swing.JFrame {
         
     }//GEN-LAST:event_btn_salvarActionPerformed
 
+    private void btn_cancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_cancelarActionPerformed
+        // TODO add your handling code here:
+        this.dispose();
+    }//GEN-LAST:event_btn_cancelarActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btn_cancelar;
     private javax.swing.JButton btn_salvar;
     private javax.swing.JTextField edt_cpf;
     private javax.swing.JTextField edt_nome;
+    private javax.swing.JTextField edt_telefone;
     private javax.swing.JLabel lbl_cpf;
     private javax.swing.JLabel lbl_nome;
+    private javax.swing.JLabel lbl_telefone;
     private javax.swing.JLabel lbl_title;
     private javax.swing.JLabel lbl_warnings;
     // End of variables declaration//GEN-END:variables
