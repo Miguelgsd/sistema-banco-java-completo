@@ -192,18 +192,17 @@ public class TelaCadastroUsuario extends javax.swing.JFrame {
         novoUsuario.setSenha(senha);
         novoUsuario.setPerfil(perfil);
         
-        UsuarioDAO dao = new UsuarioDAO();
-        boolean sucesso = dao.salvar(novoUsuario);
-        
-        if (sucesso) {
+        banco.service.UsuarioService servico = new banco.service.UsuarioService();
+        String resultado = servico.cadastrarNovoUsuario(novoUsuario);
+
+        if (resultado.startsWith("Sucesso")) {
             this.dispose();
-            
             if (telaGerenciador != null) {
                 telaGerenciador.carregarDadosBanco(); 
             }
         } else {
             lbl_warnings.setForeground(Color.red);
-            lbl_warnings.setText("Erro ao salvar o usuário no banco de dados.");
+            lbl_warnings.setText(resultado); // Exibe o erro exato vindo da Service
         }
     }//GEN-LAST:event_btn_cadastroActionPerformed
 

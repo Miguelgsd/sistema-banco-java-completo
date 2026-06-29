@@ -115,8 +115,8 @@ public class TelaLogin extends javax.swing.JFrame {
             return;
         }
         
-        banco.dao.UsuarioDAO dao = new banco.dao.UsuarioDAO();
-        banco.model.Usuario usuarioLogado = dao.validarLogin(user, password);
+        banco.service.UsuarioService servico = new banco.service.UsuarioService();
+        banco.model.Usuario usuarioLogado = servico.fazerLogin(user, password);
         
         String usuarioCorreto = "miguel";
         String senhaCorreta = "1234";

@@ -1,5 +1,6 @@
 package banco.service;
 
+import banco.dao.ConexaoDB;
 import java.util.List;
 import javax.swing.JOptionPane;
 import banco.dao.ContaCorrenteDAO;
@@ -7,6 +8,8 @@ import banco.dao.ContaPoupancaDAO;
 import banco.model.ContaBancaria;
 import banco.model.ContaCorrente;
 import banco.model.ContaPoupanca;
+import java.sql.Connection;
+import java.sql.SQLException;
 
 public class BancoService {
     private final ContaCorrenteDAO contaCorrente = new ContaCorrenteDAO();
@@ -174,5 +177,59 @@ public class BancoService {
             return "Sucesso: saque realizado no valor de R$" + String.format("%.2f", valor);
         }
         return "Erro: não foi possível realizar o saque.";
+    }
+    
+    public String transferir(String contaOrigem, String contaDestino, double valor) {
+        if (valor <= 0) return "Erro: O valor deve ser maior que zero.";
+        if (contaOrigem.equals(contaDestino)) return "Erro: Contas iguais.";
+
+        try (Connection conn = ConexaoDB.getConnection()) {
+            
+            conn.setAutoCommit(false);
+
+            try {
+                ContaBancaria origem = buscarConta(contaOrigem);
+                ContaBancaria destino = buscarConta(contaDestino);
+
+                if (origem == null || destino == null) {
+                    throw new SQLException("Uma das contas não foi localizada.");
+                }
+
+                if (origem instanceof ContaPoupanca && origem.getSaldo() < valor) {
+                    throw new SQLException("Saldo insuficiente na Poupança.");
+                } else if (origem instanceof ContaCorrente) {
+                    ContaCorrente cc = (ContaCorrente) origem;
+                    if ((cc.getSaldo() + cc.getLimite()) < valor) {
+                        throw new SQLException("Saldo/Limite insuficientes na Conta Corrente.");
+                    }
+                }
+
+                if (origem instanceof ContaPoupanca) {
+                    contaPoupanca.atualizarSaldo(contaOrigem, origem.getSaldo() - valor);
+                } else {
+                    ContaCorrente cc = (ContaCorrente) origem;
+                    double novoSaldo = cc.getSaldo() - valor;
+                    double novoLimite = novoSaldo < 0 ? cc.getLimite() + novoSaldo : cc.getLimite();
+                    contaCorrente.atualizarSaldo(contaOrigem, novoSaldo, novoLimite);
+                }
+
+                if (destino instanceof ContaPoupanca) {
+                    contaPoupanca.atualizarSaldo(contaDestino, destino.getSaldo() + valor);
+                } else {
+                    ContaCorrente cc = (ContaCorrente) destino;
+                    contaCorrente.atualizarSaldo(contaDestino, cc.getSaldo() + valor, cc.getLimite());
+                }
+
+                conn.commit();
+                return "Sucesso: Transferência realizada com sucesso!";
+
+            } catch (Exception e) {
+                conn.rollback();
+                return "Erro na transação: " + e.getMessage() + " . Operação cancelada e valores protegidos.";
+            }
+
+        } catch (SQLException e) {
+            return "Erro crítico de conexão com o banco de dados: " + e.getMessage();
+        }
     }
 }
