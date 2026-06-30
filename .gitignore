@@ -1,3 +1,6 @@
+# Credenciais do banco de dados
+db.properties
+
 # Arquivos gerados pela Compilação e Distribuição
 /build/
 /dist/
