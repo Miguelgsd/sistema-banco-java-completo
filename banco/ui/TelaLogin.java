@@ -105,36 +105,51 @@ public class TelaLogin extends javax.swing.JFrame {
     }//GEN-LAST:event_edt_passwordActionPerformed
 
     private void btn_loginActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_loginActionPerformed
-       
+
         String user = edt_user.getText().trim();
-        String password = new String(edt_password.getPassword());
-        
-        if(user.isEmpty() || password.isEmpty()){
+        String passwordPura = new String(edt_password.getPassword());
+
+        if(user.isEmpty() || passwordPura.isEmpty()){
             lbl_error.setForeground(Color.red);
             lbl_error.setText("Por favor, preencha todos os campos!");
             return;
         }
-        
+
+        String passwordCriptografada = "";
+        try {
+            java.security.MessageDigest digest = java.security.MessageDigest.getInstance("SHA-256");
+            byte[] hash = digest.digest(passwordPura.getBytes());
+            StringBuilder hexString = new StringBuilder();
+            
+            for (byte b : hash) {
+                String hex = Integer.toHexString(0xff & b);
+                if (hex.length() == 1) hexString.append('0');
+                hexString.append(hex);
+            }
+            passwordCriptografada = hexString.toString();
+            
+        } catch (java.security.NoSuchAlgorithmException e) {
+            logger.log(java.util.logging.Level.SEVERE, "Erro crítico ao processar algoritmo de hash", e);
+            passwordCriptografada = passwordPura;
+        }
+
         banco.service.UsuarioService servico = new banco.service.UsuarioService();
-        banco.model.Usuario usuarioLogado = servico.fazerLogin(user, password);
+        banco.model.Usuario usuarioLogado = servico.fazerLogin(user, passwordCriptografada);
         
-        String usuarioCorreto = "miguel";
-        String senhaCorreta = "1234";
-        String perfil = "ADMIN";
         int restantes = 3;
         
-        if(usuarioLogado != null || (user.equals(usuarioCorreto) && password.equals(senhaCorreta))){
+        if (usuarioLogado != null) {
                 
-            String nomeMenu = (usuarioLogado != null) ? usuarioLogado.getNome() : "Miguel Admin";
-            String perfilMenu = (usuarioLogado != null) ? usuarioLogado.getPerfil() : perfil;
-            
+            String nomeMenu = usuarioLogado.getNome();
+            String perfilMenu = usuarioLogado.getPerfil();
+
             new TelaMenuPrincipal(nomeMenu, perfilMenu).setVisible(true);
             this.dispose();
             
         } else {
             lbl_error.setForeground(Color.red);
             tentativas++;
-        
+
             if(tentativas >= 3){
                 btn_login.setEnabled(false);
                 

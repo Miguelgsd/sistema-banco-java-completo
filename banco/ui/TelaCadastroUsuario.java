@@ -189,7 +189,8 @@ public class TelaCadastroUsuario extends javax.swing.JFrame {
         Usuario novoUsuario = new Usuario();
         novoUsuario.setNome(nome);
         novoUsuario.setLogin(login);
-        novoUsuario.setSenha(senha);
+        String senhaCriptografada = banco.dao.Seguranca.criptografarSenha(senha);
+        novoUsuario.setSenha(senhaCriptografada);
         novoUsuario.setPerfil(perfil);
         
         banco.service.UsuarioService servico = new banco.service.UsuarioService();
