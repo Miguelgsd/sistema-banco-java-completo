@@ -43,7 +43,7 @@ public class BancoService {
         return patrimonio;
     }
 
-    public void exibirRelatorioGeral(){
+    public String exibirRelatorioGeral(){
         List<ContaCorrente> correntes = contaCorrente.listarTodas();
         List<ContaPoupanca> poupancas = contaPoupanca.listarTodas();
         
@@ -65,18 +65,25 @@ public class BancoService {
         }
         
         if (contaMaior == null || contaMenor == null) {
-            JOptionPane.showMessageDialog(null, "Não há contas registradas no banco de dados para gerar relatório.");
-            return;
+            return "Não há contas registradas no banco de dados para gerar o relatório.";
         }
 
-        JOptionPane.showMessageDialog(null, 
-            "------- Relatório PostgreSQL -------\n\n" + 
-            "Nº de Contas Correntes: " + correntes.size() + 
-            "\nNº de Contas Poupanças: " + poupancas.size() + 
-            "\nPatrimônio total: R$" + String.format("%.2f", calcularPatrimonioTotal()) + 
-            "\nMaior saldo: Conta " + contaMaior.getNumeroConta() + " -> R$" + String.format("%.2f", contaMaior.getSaldo()) + 
-            "\nMenor saldo: Conta " + contaMenor.getNumeroConta() + " -> R$" + String.format("%.2f", contaMenor.getSaldo())
-        );
+        StringBuilder sb = new StringBuilder();
+        sb.append("==================================================\n");
+        sb.append("             RELATÓRIO DE AUDITORIA GERAL         \n");
+        sb.append("==================================================\n\n");
+        sb.append("Nº de Contas Correntes Ativas:  ").append(correntes.size()).append("\n");
+        sb.append("Nº de Contas Poupanças Ativas:  ").append(poupancas.size()).append("\n");
+        sb.append("Patrimônio Total Custodiado:    R$ ").append(String.format("%.2f", calcularPatrimonioTotal())).append("\n\n");
+        sb.append("--------------------------------------------------\n");
+        sb.append("Destaques de Saldo:\n");
+        sb.append(" -> MAIOR SALDO: Conta ").append(contaMaior.getNumeroConta())
+          .append(" (R$ ").append(String.format("%.2f", contaMaior.getSaldo())).append(")\n");
+        sb.append(" -> MENOR SALDO: Conta ").append(contaMenor.getNumeroConta())
+          .append(" (R$ ").append(String.format("%.2f", contaMenor.getSaldo())).append(")\n");
+        sb.append("==================================================");
+
+        return sb.toString();
     }
     
     public String depositarPoupanca(String numeroConta, double valor){

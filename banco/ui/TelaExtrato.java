@@ -62,6 +62,7 @@ public class TelaExtrato extends javax.swing.JFrame {
         btn_buscar.addActionListener(this::btn_buscarActionPerformed);
 
         btn_voltar.setText("Voltar");
+        btn_voltar.addActionListener(this::btn_voltarActionPerformed);
 
         tbl_extrato.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -181,6 +182,11 @@ public class TelaExtrato extends javax.swing.JFrame {
         lbl_warnings.setForeground(new java.awt.Color(0, 150, 0));
         lbl_warnings.setText("Extrato atualizado com sucesso!");
     }//GEN-LAST:event_btn_buscarActionPerformed
+
+    private void btn_voltarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_voltarActionPerformed
+        // TODO add your handling code here:
+        this.dispose();
+    }//GEN-LAST:event_btn_voltarActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
