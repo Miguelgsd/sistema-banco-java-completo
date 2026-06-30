@@ -146,8 +146,6 @@ public class TelaExtrato extends javax.swing.JFrame {
             lbl_warnings.setText("Por favor, digite o número da conta!");
             return;
         }
-        
-        // Limpa todas as linhas antigas antes de trazer a nova busca
         tabelaModelo.setNumRows(0);
         
         BancoService servico = new BancoService();
@@ -176,8 +174,7 @@ public class TelaExtrato extends javax.swing.JFrame {
             lbl_warnings.setText("Nenhuma movimentação registrada para esta conta.");
             return;
         }
-        
-        // Insere cada linha do PostgreSQL na coluna única da tabela visual
+
         for (String linhaTransacao : historico) {
             tabelaModelo.addRow(new Object[]{ linhaTransacao });
         }
