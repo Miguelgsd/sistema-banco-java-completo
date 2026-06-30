@@ -70,6 +70,7 @@ public class TelaMenuPrincipal extends javax.swing.JFrame {
         btn_relatorio.addActionListener(this::btn_relatorioActionPerformed);
 
         btn_extrato.setText("Extrato");
+        btn_extrato.addActionListener(this::btn_extratoActionPerformed);
 
         lbl_title.setFont(new java.awt.Font("Cantarell", 0, 24)); // NOI18N
         lbl_title.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
@@ -212,6 +213,11 @@ public class TelaMenuPrincipal extends javax.swing.JFrame {
         // TODO add your handling code here:
         new TelaCadastroContaPoupanca().setVisible(true);
     }//GEN-LAST:event_btn_cad_poupancaActionPerformed
+
+    private void btn_extratoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_extratoActionPerformed
+        // TODO add your handling code here:
+        new TelaExtrato().setVisible(true);
+    }//GEN-LAST:event_btn_extratoActionPerformed
 
     /**
      * @param args the command line arguments

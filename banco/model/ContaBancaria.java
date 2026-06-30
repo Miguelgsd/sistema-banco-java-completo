@@ -103,5 +103,9 @@ public abstract class ContaBancaria implements Operavel {
         return this.historico;
     }
 
+    public long getId() {
+        return id;
+    }
+
     public abstract void gerarExtrato();
 }
