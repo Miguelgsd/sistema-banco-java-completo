@@ -61,6 +61,7 @@ public class TelaMenuPrincipal extends javax.swing.JFrame {
         btn_saque.addActionListener(this::btn_saqueActionPerformed);
 
         btn_cad_poupanca.setText("Cadastrar Conta Poupança");
+        btn_cad_poupanca.addActionListener(this::btn_cad_poupancaActionPerformed);
 
         btn_transferencia.setText("Transferência");
         btn_transferencia.addActionListener(this::btn_transferenciaActionPerformed);
@@ -206,6 +207,11 @@ public class TelaMenuPrincipal extends javax.swing.JFrame {
         // TODO add your handling code here:
         new TelaCadastroCliente().setVisible(true);
     }//GEN-LAST:event_btn_cad_clienteActionPerformed
+
+    private void btn_cad_poupancaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_cad_poupancaActionPerformed
+        // TODO add your handling code here:
+        new TelaCadastroContaPoupanca().setVisible(true);
+    }//GEN-LAST:event_btn_cad_poupancaActionPerformed
 
     /**
      * @param args the command line arguments
