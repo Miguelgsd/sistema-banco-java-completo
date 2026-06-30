@@ -1,4 +1,4 @@
-# TrabalhoFinal2 (Sistema Bancário)
+# Sistema Bancário em Java
 
 ![Java](https://img.shields.io/badge/Java-JDK%2021-blue)
 ![Swing](https://img.shields.io/badge/GUI-Java%20Swing-orange)
@@ -273,12 +273,9 @@ java -jar dist/TrabalhoFinal2.jar
 ---
 
 ## Imagens do Sistema
+![Login](./Login.png)
 
-![Login](./screenshots/tela-login.png)
-
-![Menu Principal](./screenshots/tela-menu-principal.png)
-
-> Substitua os caminhos acima pelos arquivos de imagem reais se desejar incluir as capturas entregues.
+![Menu Principal](./Sys.png)
 
 ---
 
@@ -293,5 +290,5 @@ java -jar dist/TrabalhoFinal2.jar
 
 ## Identificação do Aluno
 
-- **Nome:** MIGUEL GARCIA DE SOUZA DUTRA
+- **Nome:** Miguel Garcia
 - **Turma:** 2° período de informática
