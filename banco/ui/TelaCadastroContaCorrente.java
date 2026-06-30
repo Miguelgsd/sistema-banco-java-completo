@@ -46,7 +46,7 @@ public class TelaCadastroContaCorrente extends javax.swing.JFrame {
         btn_cancelar = new javax.swing.JButton();
         lbl_warnings = new javax.swing.JLabel();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
         lbl_title.setFont(new java.awt.Font("Cantarell", 0, 24)); // NOI18N
         lbl_title.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
@@ -81,32 +81,31 @@ public class TelaCadastroContaCorrente extends javax.swing.JFrame {
             .addGroup(layout.createSequentialGroup()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
+                        .addGap(73, 73, 73)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(layout.createSequentialGroup()
-                                .addGap(179, 179, 179)
-                                .addComponent(btn_salvar)
-                                .addGap(57, 57, 57)
-                                .addComponent(btn_cancelar))
-                            .addGroup(layout.createSequentialGroup()
-                                .addGap(73, 73, 73)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(lbl_limite)
-                                    .addComponent(lbl_saldoInicial)
-                                    .addComponent(lbl_numeroConta)
-                                    .addComponent(lbl_cpfTitular))
-                                .addGap(50, 50, 50)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                    .addComponent(edt_numeroConta)
-                                    .addComponent(edt_saldoInicial)
-                                    .addComponent(edt_limite)
-                                    .addComponent(edt_cpfTitular, javax.swing.GroupLayout.PREFERRED_SIZE, 240, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                        .addGap(0, 83, Short.MAX_VALUE))
+                            .addComponent(lbl_limite)
+                            .addComponent(lbl_saldoInicial)
+                            .addComponent(lbl_numeroConta)
+                            .addComponent(lbl_cpfTitular))
+                        .addGap(50, 50, 50)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(edt_numeroConta)
+                            .addComponent(edt_saldoInicial)
+                            .addComponent(edt_limite)
+                            .addComponent(edt_cpfTitular))
+                        .addGap(86, 86, 86))
                     .addGroup(layout.createSequentialGroup()
                         .addContainerGap()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(lbl_warnings, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addComponent(lbl_title, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
                 .addContainerGap())
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addGap(0, 275, Short.MAX_VALUE)
+                .addComponent(btn_salvar)
+                .addGap(57, 57, 57)
+                .addComponent(btn_cancelar)
+                .addGap(246, 246, 246))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -129,13 +128,13 @@ public class TelaCadastroContaCorrente extends javax.swing.JFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(lbl_cpfTitular)
                     .addComponent(edt_cpfTitular, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(44, 44, 44)
+                .addGap(36, 36, 36)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btn_salvar)
                     .addComponent(btn_cancelar))
-                .addGap(18, 18, 18)
+                .addGap(26, 26, 26)
                 .addComponent(lbl_warnings)
-                .addContainerGap(44, Short.MAX_VALUE))
+                .addContainerGap(36, Short.MAX_VALUE))
         );
 
         pack();

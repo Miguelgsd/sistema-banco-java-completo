@@ -2,7 +2,6 @@ package banco.service;
 
 import banco.dao.ConexaoDB;
 import java.util.List;
-import javax.swing.JOptionPane;
 import banco.dao.ContaCorrenteDAO;
 import banco.dao.ContaPoupancaDAO;
 import banco.model.ContaBancaria;
@@ -10,6 +9,7 @@ import banco.model.ContaCorrente;
 import banco.model.ContaPoupanca;
 import java.sql.Connection;
 import java.sql.SQLException;
+import java.sql.PreparedStatement;
 
 public class BancoService {
     private final ContaCorrenteDAO contaCorrente = new ContaCorrenteDAO();
@@ -100,7 +100,8 @@ public class BancoService {
         boolean atualizou = contaPoupanca.atualizarSaldo(numeroConta, novoSaldo);
         
         if(atualizou){
-            contaPoupanca.registrarTransacao(1, "Depósito em dinheiro", valor);
+            int idReal = (int) poupanca.getId();
+            contaPoupanca.registrarTransacao(idReal, "Depósito em dinheiro", valor);
             return "Sucesso: depósito realizado!";
         }
         
@@ -126,7 +127,8 @@ public class BancoService {
         boolean atualizou = contaPoupanca.atualizarSaldo(numeroConta, novoSaldo);
         
         if(atualizou){
-            contaPoupanca.registrarTransacao(1, "Saque realizado" + valor, valor);
+            int idReal = (int) poupanca.getId();
+            contaPoupanca.registrarTransacao(idReal, "Saque realizado" + valor, valor);
             return "Sucesso: saque realizado no valor de R$" + String.format("%.2f", valor);
         }
         
@@ -148,7 +150,8 @@ public class BancoService {
         boolean atualizou = contaCorrente.atualizarSaldo(numeroConta, novoSaldo, corrente.getLimite());
         
         if(atualizou){
-            contaCorrente.registrarTransacao(1, "Depósito em dinheiro", valor);
+            int idReal = (int) corrente.getId();
+            contaCorrente.registrarTransacao(idReal, "Depósito em dinheiro", valor);
             return "Sucesso: depósito realizado no valor de R$" + String.format("%.2f", valor);
         }
         
@@ -180,7 +183,8 @@ public class BancoService {
         
         boolean atualizou = contaCorrente.atualizarSaldo(numeroConta, novoSaldo, novoLimite);
         if(atualizou){
-            contaCorrente.registrarTransacao(1, "Saque realizado", valor);
+            int idReal = (int) corrente.getId();
+            contaCorrente.registrarTransacao(idReal, "Saque realizado", valor);
             return "Sucesso: saque realizado no valor de R$" + String.format("%.2f", valor);
         }
         return "Erro: não foi possível realizar o saque.";
@@ -190,8 +194,15 @@ public class BancoService {
         if (valor <= 0) return "Erro: O valor deve ser maior que zero.";
         if (contaOrigem.equals(contaDestino)) return "Erro: Contas iguais.";
 
+        String sqlDebitoPoupanca = "UPDATE contas_poupanca SET saldo = ? WHERE numero_conta = ?";
+        String sqlCreditoPoupanca = "UPDATE contas_poupanca SET saldo = ? WHERE numero_conta = ?";
+        String sqlDebitoCorrente = "UPDATE contas_correntes SET saldo = ?, limite_cheque = ? WHERE numero_conta = ?";
+        String sqlCreditoCorrente = "UPDATE contas_correntes SET saldo = ? WHERE numero_conta = ?";
+        
+        String sqlLogTransacao = "INSERT INTO transacoes (conta_id, tipo_conta, descricao, valor) VALUES (?, ?, ?, ?)";
+
         try (Connection conn = ConexaoDB.getConnection()) {
-            
+
             conn.setAutoCommit(false);
 
             try {
@@ -212,19 +223,53 @@ public class BancoService {
                 }
 
                 if (origem instanceof ContaPoupanca) {
-                    contaPoupanca.atualizarSaldo(contaOrigem, origem.getSaldo() - valor);
+                    try (PreparedStatement stmt = conn.prepareStatement(sqlDebitoPoupanca)) {
+                        stmt.setDouble(1, origem.getSaldo() - valor);
+                        stmt.setString(2, contaOrigem);
+                        stmt.executeUpdate();
+                    }
                 } else {
                     ContaCorrente cc = (ContaCorrente) origem;
                     double novoSaldo = cc.getSaldo() - valor;
                     double novoLimite = novoSaldo < 0 ? cc.getLimite() + novoSaldo : cc.getLimite();
-                    contaCorrente.atualizarSaldo(contaOrigem, novoSaldo, novoLimite);
+                    try (PreparedStatement stmt = conn.prepareStatement(sqlDebitoCorrente)) {
+                        stmt.setDouble(1, novoSaldo);
+                        stmt.setDouble(2, novoLimite);
+                        stmt.setString(3, contaOrigem);
+                        stmt.executeUpdate();
+                    }
                 }
 
                 if (destino instanceof ContaPoupanca) {
-                    contaPoupanca.atualizarSaldo(contaDestino, destino.getSaldo() + valor);
+                    try (PreparedStatement stmt = conn.prepareStatement(sqlCreditoPoupanca)) {
+                        stmt.setDouble(1, destino.getSaldo() + valor);
+                        stmt.setString(2, contaDestino);
+                        stmt.executeUpdate();
+                    }
                 } else {
                     ContaCorrente cc = (ContaCorrente) destino;
-                    contaCorrente.atualizarSaldo(contaDestino, cc.getSaldo() + valor, cc.getLimite());
+                    try (PreparedStatement stmt = conn.prepareStatement(sqlCreditoCorrente)) {
+                        stmt.setDouble(1, cc.getSaldo() + valor);
+                        stmt.setString(2, contaDestino);
+                        stmt.executeUpdate();
+                    }
+                }
+
+                String tipoOrigem = (origem instanceof ContaCorrente) ? "CORRENTE" : "POUPANCA";
+                String tipoDestino = (destino instanceof ContaCorrente) ? "CORRENTE" : "POUPANCA";
+                
+                try (PreparedStatement stmtLog = conn.prepareStatement(sqlLogTransacao)) {
+                    stmtLog.setInt(1, (int) origem.getId());
+                    stmtLog.setString(2, tipoOrigem);
+                    stmtLog.setString(3, "Transferência enviada para conta " + contaDestino);
+                    stmtLog.setDouble(4, valor);
+                    stmtLog.executeUpdate();
+
+                    stmtLog.setInt(1, (int) destino.getId());
+                    stmtLog.setString(2, tipoDestino);
+                    stmtLog.setString(3, "Transferência recebida da conta " + contaOrigem);
+                    stmtLog.setDouble(4, valor);
+                    stmtLog.executeUpdate();
                 }
 
                 conn.commit();

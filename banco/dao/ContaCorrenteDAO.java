@@ -10,7 +10,7 @@ import java.util.List;
 
 public class ContaCorrenteDAO {
     public ContaCorrente buscaPorNumero(String numeroConta){
-        String sql = "SELECT saldo, limite_cheque FROM contas_correntes WHERE numero_conta = ?";
+        String sql = "SELECT id, saldo, limite_cheque FROM contas_correntes WHERE numero_conta = ?";
         
         try (Connection conn = ConexaoDB.getConnection();
             PreparedStatement stmt = conn.prepareStatement(sql)){
@@ -18,16 +18,20 @@ public class ContaCorrenteDAO {
             
             try (ResultSet rs = stmt.executeQuery()){
                 if(rs.next()){
+                    long id = rs.getLong("id");
                     double saldo = rs.getDouble("saldo");
                     double limite = rs.getDouble("limite_cheque");
                     
-                    return new ContaCorrente(numeroConta, null, saldo, limite);
+                    ContaCorrente cc = new ContaCorrente(numeroConta, null, saldo, limite);
+                    cc.setId(id);
+                    
+                    return cc;
                 }
             }
         } catch (SQLException e) {
             System.err.print("Erro ao buscar conta no DAO: " + e);
         }
-        return null;    
+        return null;   
     }
     
     public boolean atualizarSaldo(String numeroConta, double novoSaldo, double novoLimite){
@@ -69,9 +73,9 @@ public class ContaCorrenteDAO {
         }
     }
     
-    public List buscarHistorico(int contaId){
+    public List<String> buscarHistorico(int contaId){
         List<String> historico = new ArrayList<>();
-        String sql = "SELECT descricao, valor, data_hora FROM transacoes WHERE conta_id = ?";
+        String sql = "SELECT descricao, valor, data_hora FROM transacoes WHERE conta_id = ? AND tipo_conta = 'CORRENTE' ORDER BY data_hora";
         
         try(Connection conn = ConexaoDB.getConnection();
             PreparedStatement stmt = conn.prepareStatement(sql)){

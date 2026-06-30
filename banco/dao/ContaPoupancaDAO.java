@@ -11,7 +11,7 @@ import java.util.ArrayList;
 public class ContaPoupancaDAO{
     
     public ContaPoupanca buscarPorNumero(String numeroConta){
-        String sql = "SELECT saldo, taxa_rendimento FROM contas_poupanca WHERE numero_conta = ?";
+        String sql = "SELECT id, saldo, taxa_rendimento FROM contas_poupanca WHERE numero_conta = ?";
         
         try (Connection conn = ConexaoDB.getConnection();
              PreparedStatement stmt = conn.prepareStatement(sql)){
@@ -20,10 +20,14 @@ public class ContaPoupancaDAO{
             
             try (ResultSet rs = stmt.executeQuery()){
                 if(rs.next()){
+                    long id = rs.getLong("id");
                     double saldo = rs.getDouble("saldo");
                     double taxa = rs.getDouble("taxa_rendimento");
                     
-                    return new ContaPoupanca(numeroConta, null, saldo, taxa);
+                    ContaPoupanca cp = new ContaPoupanca(numeroConta, null, saldo, taxa);
+                    cp.setId(id);
+                    
+                    return cp;
                 }
             }
         } catch (SQLException e) {
@@ -72,9 +76,9 @@ public class ContaPoupancaDAO{
         }
     }
     
-    public List buscarHistorico(int contaId){
+    public List<String> buscarHistorico(int contaId){
         List<String> historico = new ArrayList<>();
-        String sql = "SELECT descricao, valor, data_hora FROM transacoes WHERE conta_id = ?";
+        String sql = "SELECT descricao, valor, data_hora FROM transacoes WHERE conta_id = ? AND tipo_conta = 'POUPANCA' ORDER BY data_hora";
         
         try(Connection conn = ConexaoDB.getConnection();
             PreparedStatement stmt = conn.prepareStatement(sql)){

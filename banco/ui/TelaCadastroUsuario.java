@@ -43,7 +43,7 @@ public class TelaCadastroUsuario extends javax.swing.JFrame {
         edt_name = new javax.swing.JTextField();
         lbl_warnings = new javax.swing.JLabel();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
         lbl_title.setFont(new java.awt.Font("Cantarell", 0, 24)); // NOI18N
         lbl_title.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
@@ -101,13 +101,15 @@ public class TelaCadastroUsuario extends javax.swing.JFrame {
                                         .addComponent(lbl_login)
                                         .addComponent(lbl_name, javax.swing.GroupLayout.PREFERRED_SIZE, 117, javax.swing.GroupLayout.PREFERRED_SIZE)))
                                 .addGap(26, 26, 26)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                    .addComponent(edt_login)
-                                    .addComponent(edt_password)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addComponent(edt_confirm_password)
-                                    .addComponent(cb_profile, javax.swing.GroupLayout.PREFERRED_SIZE, 228, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(edt_name))))
-                        .addGap(0, 129, Short.MAX_VALUE)))
+                                    .addComponent(edt_name)
+                                    .addComponent(edt_password)
+                                    .addGroup(layout.createSequentialGroup()
+                                        .addComponent(edt_login, javax.swing.GroupLayout.PREFERRED_SIZE, 363, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addGap(0, 0, Short.MAX_VALUE))
+                                    .addComponent(cb_profile, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
+                        .addGap(99, 99, 99)))
                 .addContainerGap())
             .addComponent(lbl_warnings, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );

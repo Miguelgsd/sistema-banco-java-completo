@@ -46,7 +46,7 @@ public class TelaMenuPrincipal extends javax.swing.JFrame {
 
         jMenuItem1.setText("jMenuItem1");
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
         btn_cad_cliente.setText("Cadastrar Cliente");
         btn_cad_cliente.addActionListener(this::btn_cad_clienteActionPerformed);
@@ -189,9 +189,7 @@ public class TelaMenuPrincipal extends javax.swing.JFrame {
 
     private void btn_relatorioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_relatorioActionPerformed
         // TODO add your handling code here:
-        BancoService servico = new BancoService();
-        
-        servico.exibirRelatorioGeral();
+        new TelaRelatorio().setVisible(true);
     }//GEN-LAST:event_btn_relatorioActionPerformed
 
     private void btn_saqueActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_saqueActionPerformed

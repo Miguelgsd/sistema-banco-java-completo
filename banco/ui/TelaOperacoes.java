@@ -42,9 +42,9 @@ public class TelaOperacoes extends javax.swing.JFrame {
         lbl_warnings = new javax.swing.JLabel();
         btn_cancelar = new javax.swing.JButton();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
-        lbl_title.setFont(new java.awt.Font("Cantarell", 0, 36)); // NOI18N
+        lbl_title.setFont(new java.awt.Font("Cantarell", 0, 24)); // NOI18N
         lbl_title.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         lbl_title.setText("Operações");
 
@@ -54,10 +54,16 @@ public class TelaOperacoes extends javax.swing.JFrame {
         lbl_valor.setFont(new java.awt.Font("Cantarell", 0, 17)); // NOI18N
         lbl_valor.setText("Valor:");
 
+        edt_numeroConta.setMinimumSize(new java.awt.Dimension(100, 30));
+        edt_numeroConta.setName(""); // NOI18N
+
+        edt_valor.setMinimumSize(new java.awt.Dimension(100, 30));
+
         lbl_conta_destino.setFont(new java.awt.Font("Cantarell", 0, 17)); // NOI18N
         lbl_conta_destino.setText("Conta destino:");
 
         edt_conta_destino.setFont(new java.awt.Font("Cantarell", 0, 17)); // NOI18N
+        edt_conta_destino.setMinimumSize(new java.awt.Dimension(100, 30));
 
         btn_confirmar.setText("Confirmar");
         btn_confirmar.addActionListener(this::btn_confirmarActionPerformed);
@@ -81,9 +87,9 @@ public class TelaOperacoes extends javax.swing.JFrame {
                             .addComponent(lbl_conta_destino))
                         .addGap(52, 52, 52)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(edt_valor)
-                            .addComponent(edt_numeroConta)
-                            .addComponent(edt_conta_destino, javax.swing.GroupLayout.DEFAULT_SIZE, 304, Short.MAX_VALUE))
+                            .addComponent(edt_numeroConta, javax.swing.GroupLayout.DEFAULT_SIZE, 459, Short.MAX_VALUE)
+                            .addComponent(edt_valor, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(edt_conta_destino, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                         .addGap(0, 0, Short.MAX_VALUE))
                     .addGroup(layout.createSequentialGroup()
                         .addContainerGap()
@@ -91,12 +97,12 @@ public class TelaOperacoes extends javax.swing.JFrame {
                             .addComponent(lbl_warnings, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addComponent(lbl_title, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
                 .addContainerGap())
-            .addGroup(layout.createSequentialGroup()
-                .addGap(152, 152, 152)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addGap(0, 205, Short.MAX_VALUE)
                 .addComponent(btn_confirmar, javax.swing.GroupLayout.PREFERRED_SIZE, 162, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addComponent(btn_cancelar, javax.swing.GroupLayout.PREFERRED_SIZE, 155, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(134, Short.MAX_VALUE))
+                .addGap(202, 202, 202))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -121,7 +127,7 @@ public class TelaOperacoes extends javax.swing.JFrame {
                     .addComponent(btn_cancelar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addGap(18, 18, 18)
                 .addComponent(lbl_warnings, javax.swing.GroupLayout.PREFERRED_SIZE, 27, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(29, Short.MAX_VALUE))
+                .addContainerGap(43, Short.MAX_VALUE))
         );
 
         pack();

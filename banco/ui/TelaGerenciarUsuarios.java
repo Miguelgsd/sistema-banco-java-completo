@@ -50,7 +50,7 @@ public class TelaGerenciarUsuarios extends javax.swing.JFrame {
         btn_delete = new javax.swing.JButton();
         lbl_warnings = new javax.swing.JLabel();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
         lbl_title.setFont(new java.awt.Font("Cantarell", 0, 24)); // NOI18N
         lbl_title.setText("Gerenciar Usuários");

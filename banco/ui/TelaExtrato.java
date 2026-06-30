@@ -27,6 +27,8 @@ public class TelaExtrato extends javax.swing.JFrame {
         initComponents();
         
         this.tabelaModelo = (DefaultTableModel) tbl_extrato.getModel();
+        
+        this.tabelaModelo.setColumnIdentifiers(new Object[]{ "Histórico de Movimentações" });
     }
 
     /**
@@ -47,7 +49,7 @@ public class TelaExtrato extends javax.swing.JFrame {
         tbl_extrato = new javax.swing.JTable();
         lbl_warnings = new javax.swing.JLabel();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
         lbl_title.setFont(new java.awt.Font("Cantarell", 0, 24)); // NOI18N
         lbl_title.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
@@ -86,28 +88,26 @@ public class TelaExtrato extends javax.swing.JFrame {
             .addGroup(layout.createSequentialGroup()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addGap(78, 78, 78)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addGroup(layout.createSequentialGroup()
-                                .addGap(78, 78, 78)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                                        .addComponent(lbl_numeroConta)
-                                        .addGap(50, 50, 50)
-                                        .addComponent(edt_numeroConta, javax.swing.GroupLayout.PREFERRED_SIZE, 172, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addGap(20, 20, 20))))
-                            .addGroup(layout.createSequentialGroup()
-                                .addGap(210, 210, 210)
-                                .addComponent(btn_buscar)
-                                .addGap(67, 67, 67)
-                                .addComponent(btn_voltar)))
-                        .addGap(0, 99, Short.MAX_VALUE))
+                                .addComponent(lbl_numeroConta)
+                                .addGap(50, 50, 50)
+                                .addComponent(edt_numeroConta, javax.swing.GroupLayout.PREFERRED_SIZE, 334, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addGap(0, 136, Short.MAX_VALUE))
                     .addGroup(layout.createSequentialGroup()
                         .addContainerGap()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(lbl_warnings, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addComponent(lbl_title, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
                 .addContainerGap())
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addGap(0, 0, Short.MAX_VALUE)
+                .addComponent(btn_buscar)
+                .addGap(67, 67, 67)
+                .addComponent(btn_voltar)
+                .addGap(258, 258, 258))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -120,11 +120,11 @@ public class TelaExtrato extends javax.swing.JFrame {
                     .addComponent(edt_numeroConta, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(24, 24, 24)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 138, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(33, 33, 33)
+                .addGap(27, 27, 27)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btn_buscar)
                     .addComponent(btn_voltar))
-                .addGap(27, 27, 27)
+                .addGap(33, 33, 33)
                 .addComponent(lbl_warnings)
                 .addContainerGap(48, Short.MAX_VALUE))
         );
@@ -147,6 +147,7 @@ public class TelaExtrato extends javax.swing.JFrame {
             return;
         }
         
+        // Limpa todas as linhas antigas antes de trazer a nova busca
         tabelaModelo.setNumRows(0);
         
         BancoService servico = new BancoService();
@@ -162,12 +163,13 @@ public class TelaExtrato extends javax.swing.JFrame {
         }
         
         int contaId = (int) cb.getId();
-        
         List<String> historico;
         
         if(cb instanceof ContaCorrente){
             historico = correnteDAO.buscarHistorico(contaId);
-        } else {historico = poupancaDAO.buscarHistorico(contaId);}
+        } else {
+            historico = poupancaDAO.buscarHistorico(contaId);
+        }
         
         if (historico == null || historico.isEmpty()) {
             lbl_warnings.setForeground(java.awt.Color.BLUE);
@@ -175,12 +177,13 @@ public class TelaExtrato extends javax.swing.JFrame {
             return;
         }
         
+        // Insere cada linha do PostgreSQL na coluna única da tabela visual
         for (String linhaTransacao : historico) {
             tabelaModelo.addRow(new Object[]{ linhaTransacao });
         }
         
         lbl_warnings.setForeground(new java.awt.Color(0, 150, 0));
-        lbl_warnings.setText("Extrato atualizado com sucesso!");
+        lbl_warnings.setText("Extrato updated com sucesso!");
     }//GEN-LAST:event_btn_buscarActionPerformed
 
     private void btn_voltarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_voltarActionPerformed
